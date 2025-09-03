@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SpareWay | Login/Register</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
+  <link href="css/index.css" rel="stylesheet">
+
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+  <div class="container">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <span>SpareWay</span>
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="#">Home</a>
+        <a class="nav-link" href="#about">About Us</a>
+        <a class="nav-link" href="#features">Features</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="hero-overlay"></div>
+  <div class="login-card">
+    <div class="logo">
+      <img src="img/img_2.png" alt="Logo">
+    </div>
+    <h2 id="authTitle">Login</h2>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs mb-3" id="authTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login-tab-pane" type="button" role="tab">Login</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="register-tab" data-bs-toggle="tab" data-bs-target="#register-tab-pane" type="button" role="tab">Register</button>
+      </li>
+    </ul>
+
+    <div class="tab-content" id="authTabContent">
+      <div class="tab-pane fade show active" id="login-tab-pane" role="tabpanel">
+        <form id="loginForm">
+          <input type="email" class="form-control" id="loginEmail" placeholder="Username">
+          <input type="password" class="form-control" id="loginPassword" placeholder="Password">
+          <button type="submit" class="btn btn-primary w-100 mb-2">Login</button>
+          <button type="button" class="btn btn-link w-100" id="goToRegister">Create New Account</button>
+        </form>
+      </div>
+      <div class="tab-pane fade" id="register-tab-pane" role="tabpanel">
+        <form id="registerForm">
+          <input type="text" class="form-control" id="regName" placeholder="Full Name">
+          <input type="email" class="form-control" id="regEmail" placeholder="Email">
+          <input type="text" class="form-control" id="regUsername" placeholder="Username">
+          <input type="number" class="form-control" id="regNumber" placeholder="Phone">
+          <input type="password" class="form-control" id="regPassword" placeholder="Password">
+          <input type="password" class="form-control" id="regConfirmPassword" placeholder="Confirm Password">
+          <button type="submit" class="btn btn-primary w-100 mb-2">Register</button>
+          <button type="button" class="btn btn-link w-100" id="goToLogin">Go to Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about-section container">
+  <h2 class="text-center mb-4">About</h2>
+  <p class="text-center">
+    SpareWay is Sri Lanka’s trusted, convenient, and secure marketplace for sports cars and auto spare parts. Our goal is to make it easy for you to find and purchase the cars and parts you need, all in one place.
+    <br><br>
+    Spare Parts: Genuine car parts, accessories, and maintenance essentials.
+    <br>
+    Location-Based Search: Find products near your city or region.
+    <br><br>
+    We are committed to providing a smooth, safe, and reliable experience for every customer. With SpareWay.lk, your automotive journey becomes easier, faster, and more enjoyable.
+  </p>
+</section>
+
+<!-- Features Section -->
+<section id="features" class="features-section container">
+  <h2 class="text-center mb-5">Our Features</h2>
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="card feature-card p-3 text-center">
+        <img src="img/y.png" class="card-img-top rounded img-fluid" alt="Quality Parts">
+        <div class="card-body">
+          <h5 class="card-title">High-Quality Parts</h5>
+          <p class="card-text">Only genuine and verified spare parts from trusted suppliers.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card feature-card p-3 text-center">
+        <img src="img/red-location-marker-map-over-city-background-concept-navigation-travel-planning-urban-exploration-red-location-marker-map-371722660.png" class="card-img-top rounded img-fluid" alt="Fast Delivery">
+        <div class="card-body">
+          <h5 class="card-title">Location-Based Search</h5>
+          <p class="card-text">Easily find cars and spare parts available near your city or region for faster, hassle-free purchases.</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card feature-card p-3 text-center">
+        <img src="img/green-verified-rubber-stamp-vector-illustration-isolated-white-background-90991065.png" class="card-img-top rounded img-fluid" alt="Verified Sellers">
+        <div class="card-body">
+          <h5 class="card-title">Verified Sellers</h5>
+          <p class="card-text">We ensure every seller is verified for a safe buying experience.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+
+  <p>
+    <i class="fas fa-phone"></i> +94 72 154 2054 &nbsp; | &nbsp;
+    <i class="fas fa-envelope"></i> hirushasilva322@gmail.com
+  </p>
+  <p>© 2025 SpareWay. All Rights Reserved.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const authTitle = document.getElementById("authTitle");
+  const loginTab = document.getElementById("login-tab");
+  const registerTab = document.getElementById("register-tab");
+
+  loginTab.addEventListener("shown.bs.tab", () => { authTitle.textContent = "Login"; });
+  registerTab.addEventListener("shown.bs.tab", () => { authTitle.textContent = "Register"; });
+
+  document.getElementById("goToRegister").addEventListener("click", () => {
+    new bootstrap.Tab(document.getElementById('register-tab')).show();
+  });
+  document.getElementById("goToLogin").addEventListener("click", () => {
+    new bootstrap.Tab(document.getElementById('login-tab')).show();
+  });
+</script>
+</body>
+</html>

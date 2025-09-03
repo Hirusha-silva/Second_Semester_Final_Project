@@ -1,0 +1,153 @@
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    background: black;
+}
+
+/* Navbar */
+.navbar { background:black; font-family: "Avenir Next"}
+.nav-link { color: #fff !important; margin-left: 15px; }
+
+/* Logo in Navbar */
+.navbar-brand span { color: white; font-size: 1.5rem; font-weight: bold; margin-left: 10px; }
+.nav-link {
+    color: red !important;
+    margin-left: 15px;
+    position: relative;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    left: 0;
+    bottom: -5px;
+    background-color: white;
+    transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+    width: 100%;
+}
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    background-image: url('../img/louismoto-H_9vRBSdXAA-unsplash.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0 50px;
+}
+.hero-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /*background-color: rgba(0,0,0,0.4);*/
+    z-index: 1;
+}
+
+/* Login Card */
+.login-card {
+    position: relative;
+    z-index: 2;
+    /*max-width: 400px;*/
+    width: 450px;
+    /*background: rgba(255,255,255,0.95);*/
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    backdrop-filter: blur(8px);
+    padding: 30px 25px;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    transition: transform 0.3s;
+}
+.login-card:hover { transform: translateY(-5px); }
+
+.login-card h2 {
+    text-align: center;
+    margin-bottom: 15px;
+    color: white;
+    font-weight: bold;
+}
+.login-card .logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+/* Increased logo size */
+.login-card .logo img {
+    height: 230px; /* <-- increased from 40px */
+    width: auto;
+}
+#goToLogin{
+    color: white;
+}
+#goToRegister{
+    color: white;
+}
+
+.login-card .form-control {
+    border-radius: 10px;
+    padding: 12px;
+    margin-bottom: 15px;
+}
+.login-card .btn-primary {
+    border-radius: 10px;
+    padding: 12px;
+    font-weight: bold;
+    background: #1e272e;
+    border: none;
+}
+.login-card .btn-primary:hover { background: #374151; }
+.login-card .btn-link { color: #1e272e; text-decoration: underline; }
+
+/* About & Features */
+.about-section, .features-section {
+    padding: 50px 20px;
+    margin: 40px auto;
+    font-family: "DIN Condensed";
+    color: white;
+    max-width: 1000px;
+    font-size: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    background: transparent;
+}
+.about-section > h2{ font-size: 50px; }
+.features-section { background: darkgray; color: black }
+.feature-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    height: 400px;
+}
+.feature-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+
+
+/* Footer */
+footer {
+    background: #1e272e;
+    color: #fff;
+    text-align: center;
+    padding: 15px 0;
+    margin-top: 30px;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .hero-section { justify-content: center; padding: 0 20px; }
+    .login-card { margin: 30px auto; }
+}
+@media (max-width: 576px) {
+    .login-card { width: 90%; padding: 20px; }
+    .login-card h2 { font-size: 1.5rem; }
+}
