@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpareWay | Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background: #f9f9f9; }
+        .ad-card { transition: 0.3s; cursor: pointer; }
+        .ad-card:hover { transform: translateY(-5px); box-shadow: 0px 4px 12px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+
+<!-- 🔝 Header -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand fw-bold" href="#">SpareWay</a>
+        <button class="btn btn-success ms-auto" data-bs-toggle="modal" data-bs-target="#postAdModal">
+            + Post Ad
+        </button>
+    </div>
+</nav>
+
+<div class="container mt-4">
+
+    <!-- 🔎 Search & Filters -->
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white fw-bold">Search & Filter Ads</div>
+        <div class="card-body">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Search by Title...">
+                </div>
+                <div class="col-md-4">
+                    <select id="categoryFilter" class="form-select">
+                        <option value="">All Categories</option>
+                        <option value="Car">Car</option>
+                        <option value="Bike">Bike</option>
+                        <option value="Parts">Parts</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select id="locationFilter" class="form-select">
+                        <option value="">All Locations</option>
+                        <option value="Colombo">Colombo</option>
+                        <option value="Kandy">Kandy</option>
+                        <option value="Galle">Galle</option>
+                        <option value="Jaffna">Jaffna</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 📦 Ads Display -->
+    <h4 class="mb-3">Available Ads</h4>
+    <div class="row" id="adsContainer"></div>
+</div>
+
+<!-- 📝 Post Ad Modal -->
+<div class="modal fade" id="postAdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Post a New Ad</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <form id="adForm">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Ad Title</label>
+                            <input type="text" class="form-control" id="title" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Price</label>
+                            <input type="number" class="form-control" id="price" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Category</label>
+                            <select class="form-select" id="category" required>
+                                <option value="">Choose...</option>
+                                <option value="Car">Car</option>
+                                <option value="Bike">Bike</option>
+                                <option value="Parts">Parts</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Location</label>
+                            <select class="form-select" id="location" required>
+                                <option value="">Choose...</option>
+                                <option value="Colombo">Colombo</option>
+                                <option value="Kandy">Kandy</option>
+                                <option value="Galle">Galle</option>
+                                <option value="Jaffna">Jaffna</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Upload Photos (Multiple)</label>
+                            <input type="file" class="form-control" id="photos" accept="image/*" multiple required>
+                        </div>
+                        <div class="col-md-12">
+                            <label class="form-label">Description</label>
+                            <textarea class="form-control" id="description" rows="3" required></textarea>
+                        </div>
+                    </div>
+                    <div class="text-end mt-3">
+                        <button type="submit" class="btn btn-success">Post Ad</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 🪟 View Ad Modal (with multiple photos carousel) -->
+<div class="modal fade" id="adModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-dark text-white">
+                <h5 class="modal-title" id="modalTitle"></h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div id="photoCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="carouselImages"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#photoCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#photoCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+                <h6 class="text-success">Price: Rs. <span id="modalPrice"></span></h6>
+                <p><b>Category:</b> <span id="modalCategory"></span></p>
+                <p><b>Location:</b> <span id="modalLocation"></span></p>
+                <p id="modalDescription"></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    const adForm = document.getElementById('adForm');
+    const adsContainer = document.getElementById('adsContainer');
+    const adModal = new bootstrap.Modal(document.getElementById('adModal'));
+
+    const modalTitle = document.getElementById('modalTitle');
+    const modalPrice = document.getElementById('modalPrice');
+    const modalDescription = document.getElementById('modalDescription');
+    const modalCategory = document.getElementById('modalCategory');
+    const modalLocation = document.getElementById('modalLocation');
+    const carouselImages = document.getElementById('carouselImages');
+
+    const searchInput = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const locationFilter = document.getElementById('locationFilter');
+
+    let ads = [];
+
+    // ✅ Post New Ad
+    adForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const title = document.getElementById('title').value;
+        const price = document.getElementById('price').value;
+        const description = document.getElementById('description').value;
+        const category = document.getElementById('category').value;
+        const location = document.getElementById('location').value;
+        const photos = document.getElementById('photos').files;
+
+        if (photos.length === 0) return alert("Please upload at least one photo!");
+
+        let photoArray = [];
+        let loaded = 0;
+
+        for (let i = 0; i < photos.length; i++) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                photoArray.push(e.target.result);
+                loaded++;
+                if (loaded === photos.length) {
+                    const ad = { title, price, description, category, location, photos: photoArray };
+                    ads.push(ad);
+                    displayAds();
+                    adForm.reset();
+                    document.querySelector('#postAdModal .btn-close').click(); // close modal
+                }
+            };
+            reader.readAsDataURL(photos[i]);
+        }
+    });
+
+    // ✅ Display Ads with Filters
+    function displayAds() {
+        adsContainer.innerHTML = '';
+
+        let filteredAds = ads.filter(ad => {
+            const searchText = searchInput.value.toLowerCase();
+            const category = categoryFilter.value;
+            const location = locationFilter.value;
+            return (
+                ad.title.toLowerCase().includes(searchText) &&
+                (category === '' || ad.category === category) &&
+                (location === '' || ad.location === location)
+            );
+        });
+
+        filteredAds.forEach((ad, index) => {
+            const adCard = document.createElement('div');
+            adCard.className = 'col-md-4 mb-4';
+            adCard.innerHTML = `
+        <div class="card ad-card" onclick="viewAd(${index})">
+          <img src="${ad.photos[0]}" class="card-img-top" alt="Ad Photo">
+          <div class="card-body">
+            <h5 class="card-title">${ad.title}</h5>
+            <p class="card-text text-success fw-bold">Rs. ${ad.price}</p>
+            <p class="text-muted"><small>${ad.category} | ${ad.location}</small></p>
+          </div>
+        </div>
+      `;
+            adsContainer.appendChild(adCard);
+        });
+    }
+
+    // ✅ Show Ad in Modal with Carousel
+    window.viewAd = function (index) {
+        const ad = ads[index];
+        modalTitle.textContent = ad.title;
+        modalPrice.textContent = ad.price;
+        modalDescription.textContent = ad.description;
+        modalCategory.textContent = ad.category;
+        modalLocation.textContent = ad.location;
+
+        carouselImages.innerHTML = "";
+        ad.photos.forEach((photo, i) => {
+            carouselImages.innerHTML += `
+        <div class="carousel-item ${i === 0 ? 'active' : ''}">
+          <img src="${photo}" class="d-block w-100 rounded">
+        </div>
+      `;
+        });
+
+        adModal.show();
+    };
+
+    // ✅ Filters update
+    searchInput.addEventListener('input', displayAds);
+    categoryFilter.addEventListener('change', displayAds);
+    locationFilter.addEventListener('change', displayAds);
+</script>
+</body>
+</html>
