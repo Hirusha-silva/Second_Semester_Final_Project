@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -43,8 +44,9 @@ public class Ad {
     @JoinColumn(name = "model_id")
     private VehicleModel vehicleModel;
 
-    @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL)
-    private List<AdPhoto> adPhotos;
+    @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<AdPhoto> photos = new ArrayList<>();
+
 
     @OneToMany(mappedBy = "ad", cascade = CascadeType.ALL)
     private List<Favorite> favorites;
