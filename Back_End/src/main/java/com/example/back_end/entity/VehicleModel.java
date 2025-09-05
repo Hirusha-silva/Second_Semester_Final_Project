@@ -1,5 +1,6 @@
 package com.example.back_end.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,5 +24,6 @@ public class VehicleModel {
     private String model;
 
     @OneToMany(mappedBy = "vehicleModel", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Ad> ads;
 }
