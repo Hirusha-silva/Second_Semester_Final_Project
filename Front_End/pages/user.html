@@ -64,11 +64,39 @@
             background-color: #007bff;
             color: white !important;
         }
+
+        /* Advanced Post Ad Modal Styling */
+        #postAdModal .modal-content {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+        }
+        #postAdModal .form-control,
+        #postAdModal .form-select {
+            border-radius: 12px;
+            padding: 12px;
+            border: 1px solid #ddd;
+            transition: all 0.3s;
+        }
+        #postAdModal .form-control:focus,
+        #postAdModal .form-select:focus {
+            border-color: #28a745;
+            box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+        }
+        #postAdModal label {
+            font-weight: 600;
+            color: #333;
+        }
+        #postAdModal .btn-success {
+            border-radius: 12px;
+            font-weight: 700;
+            padding: 10px 25px;
+        }
     </style>
 </head>
 <body>
 
-<!-- 🔝 Header -->
+<!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">SpareWay</a>
@@ -80,7 +108,7 @@
 
 <div class="container mt-4">
 
-    <!-- 🔎 Modern Search -->
+    <!-- Search Card -->
     <div class="search-card">
         <h2 class="mb-3">🔍 Find Spare Parts</h2>
         <form id="searchForm" class="row g-3">
@@ -115,12 +143,6 @@
                 </select>
             </div>
             <div class="col-md-2">
-                <input type="number" id="minPrice" class="form-control" placeholder="Min Price">
-            </div>
-            <div class="col-md-2">
-                <input type="number" id="maxPrice" class="form-control" placeholder="Max Price">
-            </div>
-            <div class="col-md-2">
                 <input type="text" id="searchLocation" class="form-control" placeholder="Location">
             </div>
             <div class="col-md-2 d-grid">
@@ -129,14 +151,14 @@
         </form>
     </div>
 
-    <!-- 📂 Tabs for Sections -->
+    <!-- Section Tabs -->
     <ul class="nav nav-pills mb-4 section-tabs" id="adsTabs">
         <li class="nav-item"><a class="nav-link active" data-bs-toggle="tab" href="#allAds">All Ads</a></li>
         <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#myAds">My Ads</a></li>
         <li class="nav-item"><a class="nav-link" data-bs-toggle="tab" href="#favAds">Favorites ❤️</a></li>
     </ul>
 
-    <!-- 📦 Ads Display -->
+    <!-- Ads Display -->
     <div class="tab-content">
         <div class="tab-pane fade show active" id="allAds">
             <div class="row" id="adsContainer"></div>
@@ -150,7 +172,7 @@
     </div>
 </div>
 
-<!-- 📝 Post Ad Modal -->
+<!-- Post Ad Modal -->
 <div class="modal fade" id="postAdModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -159,41 +181,54 @@
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <form id="adForm">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Ad Title</label>
-                            <input type="text" class="form-control" id="title" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Price</label>
-                            <input type="number" class="form-control" id="price" required>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Category</label>
-                            <select class="form-select" id="category" required>
-                                <option value="">Choose...</option>
-                                <option value="Car">Car</option>
-                                <option value="Bike">Bike</option>
-                                <option value="Parts">Parts</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Location</label>
-                            <input type="text" class="form-control" id="location" required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label">Upload Photos (Multiple)</label>
-                            <input type="file" class="form-control" id="photos" accept="image/*" multiple required>
-                        </div>
-                        <div class="col-md-12">
-                            <label class="form-label">Description</label>
-                            <textarea class="form-control" id="description" rows="3" required></textarea>
-                        </div>
+                <form id="adForm" class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Ad Title</label>
+                        <input type="text" class="form-control" id="title" placeholder="Enter title" required>
                     </div>
-                    <div class="text-end mt-3">
-                        <button type="submit" class="btn btn-success">Post Ad</button>
+                    <div class="col-md-6">
+                        <label class="form-label">Price (Rs.)</label>
+                        <input type="number" class="form-control" id="price" placeholder="Enter price" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Category</label>
+                        <select class="form-select" id="category" required>
+                            <option value="">Choose...</option>
+                            <option value="Car">Car</option>
+                            <option value="Bike">Bike</option>
+                            <option value="Parts">Parts</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Brand</label>
+                        <select class="form-select" id="brand" required>
+                            <option value="">Select Brand</option>
+                            <option value="Toyota">Toyota</option>
+                            <option value="Honda">Honda</option>
+                            <option value="Nissan">Nissan</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Model</label>
+                        <select class="form-select" id="model" required>
+                            <option value="">Select Model</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Location</label>
+                        <input type="text" class="form-control" id="location" placeholder="Enter location" required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Upload Photos</label>
+                        <input type="file" class="form-control" id="photos" accept="image/*" multiple required>
+                    </div>
+                    <div class="col-md-12">
+                        <label class="form-label">Description</label>
+                        <textarea class="form-control" id="description" rows="3" placeholder="Write a brief description..." required></textarea>
+                    </div>
+                    <div class="col-12 text-end mt-3">
+                        <button type="submit" class="btn btn-success btn-lg">Post Ad</button>
                     </div>
                 </form>
             </div>
@@ -201,7 +236,7 @@
     </div>
 </div>
 
-<!-- 🪟 View Ad Modal -->
+<!-- View Ad Modal -->
 <div class="modal fade" id="adModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
@@ -221,6 +256,8 @@
                 </div>
                 <h6 class="text-success">Price: Rs. <span id="modalPrice"></span></h6>
                 <p><b>Category:</b> <span id="modalCategory"></span></p>
+                <p><b>Brand:</b> <span id="modalBrand"></span></p>
+                <p><b>Model:</b> <span id="modalModel"></span></p>
                 <p><b>Location:</b> <span id="modalLocation"></span></p>
                 <p id="modalDescription"></p>
             </div>
@@ -228,7 +265,6 @@
     </div>
 </div>
 
-<!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     const adsContainer = document.getElementById('adsContainer');
@@ -241,6 +277,8 @@
     const modalDescription = document.getElementById('modalDescription');
     const modalCategory = document.getElementById('modalCategory');
     const modalLocation = document.getElementById('modalLocation');
+    const modalBrand = document.getElementById('modalBrand');
+    const modalModel = document.getElementById('modalModel');
     const carouselImages = document.getElementById('carouselImages');
 
     const searchForm = document.getElementById('searchForm');
@@ -248,37 +286,51 @@
     const categoryFilter = document.getElementById('searchCategory');
     const brandFilter = document.getElementById('searchBrand');
     const modelFilter = document.getElementById('searchModel');
-    const minPrice = document.getElementById('minPrice');
-    const maxPrice = document.getElementById('maxPrice');
     const locationFilter = document.getElementById('searchLocation');
 
     let ads = [];
     let favAds = [];
     let myAds = [];
 
-    // ✅ Post New Ad
+    // Brand → Model Mapping
+    const brandModels = {
+        "Toyota": ["Corolla", "Camry", "Prius"],
+        "Honda": ["Civic", "Accord", "City"],
+        "Nissan": ["Sunny", "Altima", "X-Trail"]
+    };
+
+    // Update Model Options Dynamically
+    document.getElementById('brand').addEventListener('change', function() {
+        const models = brandModels[this.value] || [];
+        const modelSelect = document.getElementById('model');
+        modelSelect.innerHTML = `<option value="">Select Model</option>`;
+        models.forEach(m => {
+            modelSelect.innerHTML += `<option value="${m}">${m}</option>`;
+        });
+    });
+
+    // Post New Ad
     document.getElementById('adForm').addEventListener('submit', function (e) {
         e.preventDefault();
-
         const title = document.getElementById('title').value;
         const price = parseFloat(document.getElementById('price').value);
         const description = document.getElementById('description').value;
         const category = document.getElementById('category').value;
+        const brand = document.getElementById('brand').value;
+        const model = document.getElementById('model').value;
         const location = document.getElementById('location').value;
         const photos = document.getElementById('photos').files;
-
         if (photos.length === 0) return alert("Please upload at least one photo!");
 
         let photoArray = [];
         let loaded = 0;
-
         for (let i = 0; i < photos.length; i++) {
             const reader = new FileReader();
             reader.onload = function (e) {
                 photoArray.push(e.target.result);
                 loaded++;
                 if (loaded === photos.length) {
-                    const ad = { title, price, description, category, location, photos: photoArray };
+                    const ad = { title, price, description, category, brand, model, location, photos: photoArray };
                     ads.push(ad);
                     myAds.push(ad);
                     displayAds();
@@ -290,7 +342,7 @@
         }
     });
 
-    // ✅ Display Ads
+    // Display Ads
     function displayAds() {
         renderAds(ads, adsContainer, true);
         renderAds(myAds, myAdsContainer, false);
@@ -304,14 +356,12 @@
             const category = categoryFilter.value;
             const brand = brandFilter.value;
             const model = modelFilter.value;
-            const min = minPrice.value ? parseFloat(minPrice.value) : 0;
-            const max = maxPrice.value ? parseFloat(maxPrice.value) : Infinity;
             const location = locationFilter.value.toLowerCase();
-
             return (
                 (ad.title.toLowerCase().includes(keyword) || ad.description.toLowerCase().includes(keyword)) &&
                 (category === '' || ad.category === category) &&
-                (ad.price >= min && ad.price <= max) &&
+                (brand === '' || ad.brand === brand) &&
+                (model === '' || ad.model === model) &&
                 (location === '' || ad.location.toLowerCase().includes(location))
             );
         });
@@ -325,23 +375,25 @@
           <div class="card-body">
             <h5 class="card-title">${ad.title}</h5>
             <p class="card-text text-success fw-bold">Rs. ${ad.price}</p>
-            <p class="text-muted"><small>${ad.category} | ${ad.location}</small></p>
+            <p class="text-muted"><small>${ad.category} | ${ad.brand} | ${ad.model} | ${ad.location}</small></p>
             ${showFavBtn ? `<button class="fav-btn ${favAds.includes(ad) ? 'active' : ''}" onclick="toggleFav(event, ${ads.indexOf(ad)})">♥</button>` : ''}
           </div>
         </div>
-      `;
+        `;
             adCard.querySelector('.card').addEventListener('click', () => viewAd(ads.indexOf(ad)));
             container.appendChild(adCard);
         });
     }
 
-    // ✅ Show Ad in Modal
+    // Show Ad in Modal
     window.viewAd = function (index) {
         const ad = ads[index];
         modalTitle.textContent = ad.title;
         modalPrice.textContent = ad.price;
         modalDescription.textContent = ad.description;
         modalCategory.textContent = ad.category;
+        modalBrand.textContent = ad.brand;
+        modalModel.textContent = ad.model;
         modalLocation.textContent = ad.location;
 
         carouselImages.innerHTML = "";
@@ -355,7 +407,7 @@
         adModal.show();
     };
 
-    // ✅ Toggle Favorites
+    // Toggle Favorites
     window.toggleFav = function (e, index) {
         e.stopPropagation();
         const ad = ads[index];
@@ -367,11 +419,12 @@
         displayAds();
     };
 
-    // ✅ Search form submit
+    // Search
     searchForm.addEventListener('submit', function(e) {
         e.preventDefault();
         displayAds();
     });
 </script>
 </body>
+
 </html>
