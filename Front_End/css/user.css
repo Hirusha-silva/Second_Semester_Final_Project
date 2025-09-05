@@ -1,0 +1,86 @@
+body { background: #f9fafc; font-family: 'Segoe UI', sans-serif; }
+
+/* Header */
+.navbar-brand { font-weight: bold; font-size: 1.4rem; }
+
+/* Search Card */
+.search-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
+    margin-bottom: 30px;
+}
+.search-card h2 { font-weight: 700; color: #333; }
+.search-card input,
+.search-card select {
+    border-radius: 12px;
+    padding: 10px;
+}
+.search-card button {
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+/* Ad Card */
+.ad-card {
+    transition: 0.3s;
+    cursor: pointer;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.ad-card:hover { transform: translateY(-5px); box-shadow: 0px 6px 18px rgba(0,0,0,0.15); }
+.ad-card img { height: 180px; object-fit: cover; }
+.ad-card .card-body { position: relative; }
+.fav-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    padding: 6px 9px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.fav-btn.active { color: red; }
+
+/* Section Tabs */
+.section-tabs .nav-link {
+    font-weight: 600;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+.section-tabs .nav-link.active {
+    background-color: #007bff;
+    color: white !important;
+}
+
+/* Advanced Post Ad Modal Styling */
+#postAdModal .modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
+}
+#postAdModal .form-control,
+#postAdModal .form-select {
+    border-radius: 12px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    transition: all 0.3s;
+}
+#postAdModal .form-control:focus,
+#postAdModal .form-select:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
+}
+#postAdModal label {
+    font-weight: 600;
+    color: #333;
+}
+#postAdModal .btn-success {
+    border-radius: 12px;
+    font-weight: 700;
+    padding: 10px 25px;
+}

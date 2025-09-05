@@ -5,94 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SpareWay | Dashboard</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body { background: #f9fafc; font-family: 'Segoe UI', sans-serif; }
-
-        /* Header */
-        .navbar-brand { font-weight: bold; font-size: 1.4rem; }
-
-        /* Search Card */
-        .search-card {
-            background: #fff;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0px 4px 15px rgba(0,0,0,0.08);
-            margin-bottom: 30px;
-        }
-        .search-card h2 { font-weight: 700; color: #333; }
-        .search-card input,
-        .search-card select {
-            border-radius: 12px;
-            padding: 10px;
-        }
-        .search-card button {
-            border-radius: 12px;
-            font-weight: 600;
-        }
-
-        /* Ad Card */
-        .ad-card {
-            transition: 0.3s;
-            cursor: pointer;
-            border-radius: 15px;
-            overflow: hidden;
-        }
-        .ad-card:hover { transform: translateY(-5px); box-shadow: 0px 6px 18px rgba(0,0,0,0.15); }
-        .ad-card img { height: 180px; object-fit: cover; }
-        .ad-card .card-body { position: relative; }
-        .fav-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: white;
-            border: none;
-            border-radius: 50%;
-            padding: 6px 9px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .fav-btn.active { color: red; }
-
-        /* Section Tabs */
-        .section-tabs .nav-link {
-            font-weight: 600;
-            border-radius: 10px;
-            margin-right: 10px;
-        }
-        .section-tabs .nav-link.active {
-            background-color: #007bff;
-            color: white !important;
-        }
-
-        /* Advanced Post Ad Modal Styling */
-        #postAdModal .modal-content {
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0px 8px 25px rgba(0,0,0,0.15);
-        }
-        #postAdModal .form-control,
-        #postAdModal .form-select {
-            border-radius: 12px;
-            padding: 12px;
-            border: 1px solid #ddd;
-            transition: all 0.3s;
-        }
-        #postAdModal .form-control:focus,
-        #postAdModal .form-select:focus {
-            border-color: #28a745;
-            box-shadow: 0 0 8px rgba(40, 167, 69, 0.2);
-        }
-        #postAdModal label {
-            font-weight: 600;
-            color: #333;
-        }
-        #postAdModal .btn-success {
-            border-radius: 12px;
-            font-weight: 700;
-            padding: 10px 25px;
-        }
-    </style>
+    <link  href="../css/user.css" rel="stylesheet">
 </head>
 <body>
 
@@ -100,7 +13,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" href="#">SpareWay</a>
-        <button class="btn btn-success ms-auto" data-bs-toggle="modal" data-bs-target="#postAdModal">
+        <button class="btn btn-success ms-auto" id="postAD" data-bs-toggle="modal" data-bs-target="#postAdModal">
             + Post Ad
         </button>
     </div>
@@ -193,26 +106,26 @@
                     <div class="col-md-6">
                         <label class="form-label">Category</label>
                         <select class="form-select" id="category" required>
-                            <option value="">Choose...</option>
-                            <option value="Car">Car</option>
-                            <option value="Bike">Bike</option>
-                            <option value="Parts">Parts</option>
-                            <option value="Other">Other</option>
+<!--                            <option value="">Choose...</option>-->
+<!--                            <option value="Car">Car</option>-->
+<!--                            <option value="Bike">Bike</option>-->
+<!--                            <option value="Parts">Parts</option>-->
+<!--                            <option value="Other">Other</option>-->
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Brand</label>
                         <select class="form-select" id="brand" required>
-                            <option value="">Select Brand</option>
-                            <option value="Toyota">Toyota</option>
-                            <option value="Honda">Honda</option>
-                            <option value="Nissan">Nissan</option>
+<!--                            <option value="">Select Brand</option>-->
+<!--                            <option value="Toyota">Toyota</option>-->
+<!--                            <option value="Honda">Honda</option>-->
+<!--                            <option value="Nissan">Nissan</option>-->
                         </select>
                     </div>
                     <div class="col-md-6">
                         <label class="form-label">Model</label>
                         <select class="form-select" id="model" required>
-                            <option value="">Select Model</option>
+<!--                            <option value="">Select Model</option>-->
                         </select>
                     </div>
                     <div class="col-md-6">
@@ -267,164 +180,166 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    const adsContainer = document.getElementById('adsContainer');
-    const myAdsContainer = document.getElementById('myAdsContainer');
-    const favAdsContainer = document.getElementById('favAdsContainer');
-
-    const adModal = new bootstrap.Modal(document.getElementById('adModal'));
-    const modalTitle = document.getElementById('modalTitle');
-    const modalPrice = document.getElementById('modalPrice');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalCategory = document.getElementById('modalCategory');
-    const modalLocation = document.getElementById('modalLocation');
-    const modalBrand = document.getElementById('modalBrand');
-    const modalModel = document.getElementById('modalModel');
-    const carouselImages = document.getElementById('carouselImages');
-
-    const searchForm = document.getElementById('searchForm');
-    const keywordInput = document.getElementById('searchKeyword');
-    const categoryFilter = document.getElementById('searchCategory');
-    const brandFilter = document.getElementById('searchBrand');
-    const modelFilter = document.getElementById('searchModel');
-    const locationFilter = document.getElementById('searchLocation');
-
-    let ads = [];
-    let favAds = [];
-    let myAds = [];
-
-    // Brand → Model Mapping
-    const brandModels = {
-        "Toyota": ["Corolla", "Camry", "Prius"],
-        "Honda": ["Civic", "Accord", "City"],
-        "Nissan": ["Sunny", "Altima", "X-Trail"]
-    };
-
-    // Update Model Options Dynamically
-    document.getElementById('brand').addEventListener('change', function() {
-        const models = brandModels[this.value] || [];
-        const modelSelect = document.getElementById('model');
-        modelSelect.innerHTML = `<option value="">Select Model</option>`;
-        models.forEach(m => {
-            modelSelect.innerHTML += `<option value="${m}">${m}</option>`;
-        });
-    });
-
-    // Post New Ad
-    document.getElementById('adForm').addEventListener('submit', function (e) {
-        e.preventDefault();
-        const title = document.getElementById('title').value;
-        const price = parseFloat(document.getElementById('price').value);
-        const description = document.getElementById('description').value;
-        const category = document.getElementById('category').value;
-        const brand = document.getElementById('brand').value;
-        const model = document.getElementById('model').value;
-        const location = document.getElementById('location').value;
-        const photos = document.getElementById('photos').files;
-        if (photos.length === 0) return alert("Please upload at least one photo!");
-
-        let photoArray = [];
-        let loaded = 0;
-        for (let i = 0; i < photos.length; i++) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                photoArray.push(e.target.result);
-                loaded++;
-                if (loaded === photos.length) {
-                    const ad = { title, price, description, category, brand, model, location, photos: photoArray };
-                    ads.push(ad);
-                    myAds.push(ad);
-                    displayAds();
-                    document.getElementById('adForm').reset();
-                    document.querySelector('#postAdModal .btn-close').click();
-                }
-            };
-            reader.readAsDataURL(photos[i]);
-        }
-    });
-
-    // Display Ads
-    function displayAds() {
-        renderAds(ads, adsContainer, true);
-        renderAds(myAds, myAdsContainer, false);
-        renderAds(favAds, favAdsContainer, false);
-    }
-
-    function renderAds(list, container, showFavBtn) {
-        container.innerHTML = '';
-        let filtered = list.filter(ad => {
-            const keyword = keywordInput.value.toLowerCase();
-            const category = categoryFilter.value;
-            const brand = brandFilter.value;
-            const model = modelFilter.value;
-            const location = locationFilter.value.toLowerCase();
-            return (
-                (ad.title.toLowerCase().includes(keyword) || ad.description.toLowerCase().includes(keyword)) &&
-                (category === '' || ad.category === category) &&
-                (brand === '' || ad.brand === brand) &&
-                (model === '' || ad.model === model) &&
-                (location === '' || ad.location.toLowerCase().includes(location))
-            );
-        });
-
-        filtered.forEach((ad, index) => {
-            const adCard = document.createElement('div');
-            adCard.className = 'col-md-4 mb-4';
-            adCard.innerHTML = `
-        <div class="card ad-card">
-          <img src="${ad.photos[0]}" class="card-img-top" alt="Ad Photo">
-          <div class="card-body">
-            <h5 class="card-title">${ad.title}</h5>
-            <p class="card-text text-success fw-bold">Rs. ${ad.price}</p>
-            <p class="text-muted"><small>${ad.category} | ${ad.brand} | ${ad.model} | ${ad.location}</small></p>
-            ${showFavBtn ? `<button class="fav-btn ${favAds.includes(ad) ? 'active' : ''}" onclick="toggleFav(event, ${ads.indexOf(ad)})">♥</button>` : ''}
-          </div>
-        </div>
-        `;
-            adCard.querySelector('.card').addEventListener('click', () => viewAd(ads.indexOf(ad)));
-            container.appendChild(adCard);
-        });
-    }
-
-    // Show Ad in Modal
-    window.viewAd = function (index) {
-        const ad = ads[index];
-        modalTitle.textContent = ad.title;
-        modalPrice.textContent = ad.price;
-        modalDescription.textContent = ad.description;
-        modalCategory.textContent = ad.category;
-        modalBrand.textContent = ad.brand;
-        modalModel.textContent = ad.model;
-        modalLocation.textContent = ad.location;
-
-        carouselImages.innerHTML = "";
-        ad.photos.forEach((photo, i) => {
-            carouselImages.innerHTML += `
-        <div class="carousel-item ${i === 0 ? 'active' : ''}">
-          <img src="${photo}" class="d-block w-100 rounded">
-        </div>
-      `;
-        });
-        adModal.show();
-    };
-
-    // Toggle Favorites
-    window.toggleFav = function (e, index) {
-        e.stopPropagation();
-        const ad = ads[index];
-        if (favAds.includes(ad)) {
-            favAds = favAds.filter(f => f !== ad);
-        } else {
-            favAds.push(ad);
-        }
-        displayAds();
-    };
-
-    // Search
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        displayAds();
-    });
+    // const adsContainer = document.getElementById('adsContainer');
+    // const myAdsContainer = document.getElementById('myAdsContainer');
+    // const favAdsContainer = document.getElementById('favAdsContainer');
+    //
+    // const adModal = new bootstrap.Modal(document.getElementById('adModal'));
+    // const modalTitle = document.getElementById('modalTitle');
+    // const modalPrice = document.getElementById('modalPrice');
+    // const modalDescription = document.getElementById('modalDescription');
+    // const modalCategory = document.getElementById('modalCategory');
+    // const modalLocation = document.getElementById('modalLocation');
+    // const modalBrand = document.getElementById('modalBrand');
+    // const modalModel = document.getElementById('modalModel');
+    // const carouselImages = document.getElementById('carouselImages');
+    //
+    // const searchForm = document.getElementById('searchForm');
+    // const keywordInput = document.getElementById('searchKeyword');
+    // const categoryFilter = document.getElementById('searchCategory');
+    // const brandFilter = document.getElementById('searchBrand');
+    // const modelFilter = document.getElementById('searchModel');
+    // const locationFilter = document.getElementById('searchLocation');
+    //
+    // let ads = [];
+    // let favAds = [];
+    // let myAds = [];
+    //
+    // // Brand → Model Mapping
+    // const brandModels = {
+    //     "Toyota": ["Corolla", "Camry", "Prius"],
+    //     "Honda": ["Civic", "Accord", "City"],
+    //     "Nissan": ["Sunny", "Altima", "X-Trail"]
+    // };
+    //
+    // // Update Model Options Dynamically
+    // document.getElementById('brand').addEventListener('change', function() {
+    //     const models = brandModels[this.value] || [];
+    //     const modelSelect = document.getElementById('model');
+    //     modelSelect.innerHTML = `<option value="">Select Model</option>`;
+    //     models.forEach(m => {
+    //         modelSelect.innerHTML += `<option value="${m}">${m}</option>`;
+    //     });
+    // });
+    //
+    // // Post New Ad
+    // document.getElementById('adForm').addEventListener('submit', function (e) {
+    //     e.preventDefault();
+    //     const title = document.getElementById('title').value;
+    //     const price = parseFloat(document.getElementById('price').value);
+    //     const description = document.getElementById('description').value;
+    //     const category = document.getElementById('category').value;
+    //     const brand = document.getElementById('brand').value;
+    //     const model = document.getElementById('model').value;
+    //     const location = document.getElementById('location').value;
+    //     const photos = document.getElementById('photos').files;
+    //     if (photos.length === 0) return alert("Please upload at least one photo!");
+    //
+    //     let photoArray = [];
+    //     let loaded = 0;
+    //     for (let i = 0; i < photos.length; i++) {
+    //         const reader = new FileReader();
+    //         reader.onload = function (e) {
+    //             photoArray.push(e.target.result);
+    //             loaded++;
+    //             if (loaded === photos.length) {
+    //                 const ad = { title, price, description, category, brand, model, location, photos: photoArray };
+    //                 ads.push(ad);
+    //                 myAds.push(ad);
+    //                 displayAds();
+    //                 document.getElementById('adForm').reset();
+    //                 document.querySelector('#postAdModal .btn-close').click();
+    //             }
+    //         };
+    //         reader.readAsDataURL(photos[i]);
+    //     }
+    // });
+    //
+    // // Display Ads
+    // function displayAds() {
+    //     renderAds(ads, adsContainer, true);
+    //     renderAds(myAds, myAdsContainer, false);
+    //     renderAds(favAds, favAdsContainer, false);
+    // }
+    //
+    // function renderAds(list, container, showFavBtn) {
+    //     container.innerHTML = '';
+    //     let filtered = list.filter(ad => {
+    //         const keyword = keywordInput.value.toLowerCase();
+    //         const category = categoryFilter.value;
+    //         const brand = brandFilter.value;
+    //         const model = modelFilter.value;
+    //         const location = locationFilter.value.toLowerCase();
+    //         return (
+    //             (ad.title.toLowerCase().includes(keyword) || ad.description.toLowerCase().includes(keyword)) &&
+    //             (category === '' || ad.category === category) &&
+    //             (brand === '' || ad.brand === brand) &&
+    //             (model === '' || ad.model === model) &&
+    //             (location === '' || ad.location.toLowerCase().includes(location))
+    //         );
+    //     });
+    //
+    //     filtered.forEach((ad, index) => {
+    //         const adCard = document.createElement('div');
+    //         adCard.className = 'col-md-4 mb-4';
+    //         adCard.innerHTML = `
+    //     <div class="card ad-card">
+    //       <img src="${ad.photos[0]}" class="card-img-top" alt="Ad Photo">
+    //       <div class="card-body">
+    //         <h5 class="card-title">${ad.title}</h5>
+    //         <p class="card-text text-success fw-bold">Rs. ${ad.price}</p>
+    //         <p class="text-muted"><small>${ad.category} | ${ad.brand} | ${ad.model} | ${ad.location}</small></p>
+    //         ${showFavBtn ? `<button class="fav-btn ${favAds.includes(ad) ? 'active' : ''}" onclick="toggleFav(event, ${ads.indexOf(ad)})">♥</button>` : ''}
+    //       </div>
+    //     </div>
+    //     `;
+    //         adCard.querySelector('.card').addEventListener('click', () => viewAd(ads.indexOf(ad)));
+    //         container.appendChild(adCard);
+    //     });
+    // }
+    //
+    // // Show Ad in Modal
+    // window.viewAd = function (index) {
+    //     const ad = ads[index];
+    //     modalTitle.textContent = ad.title;
+    //     modalPrice.textContent = ad.price;
+    //     modalDescription.textContent = ad.description;
+    //     modalCategory.textContent = ad.category;
+    //     modalBrand.textContent = ad.brand;
+    //     modalModel.textContent = ad.model;
+    //     modalLocation.textContent = ad.location;
+    //
+    //     carouselImages.innerHTML = "";
+    //     ad.photos.forEach((photo, i) => {
+    //         carouselImages.innerHTML += `
+    //     <div class="carousel-item ${i === 0 ? 'active' : ''}">
+    //       <img src="${photo}" class="d-block w-100 rounded">
+    //     </div>
+    //   `;
+    //     });
+    //     adModal.show();
+    // };
+    //
+    // // Toggle Favorites
+    // window.toggleFav = function (e, index) {
+    //     e.stopPropagation();
+    //     const ad = ads[index];
+    //     if (favAds.includes(ad)) {
+    //         favAds = favAds.filter(f => f !== ad);
+    //     } else {
+    //         favAds.push(ad);
+    //     }
+    //     displayAds();
+    // };
+    //
+    // // Search
+    // searchForm.addEventListener('submit', function(e) {
+    //     e.preventDefault();
+    //     displayAds();
+    // });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="../js/user.js"></script>
 </body>
 
 </html>
