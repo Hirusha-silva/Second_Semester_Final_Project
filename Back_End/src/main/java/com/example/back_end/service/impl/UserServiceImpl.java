@@ -51,7 +51,10 @@ public class UserServiceImpl implements UserService {
         if (!passwordEncoder.matches(loginDto.getPassword(), user.getPassword())) {
             throw new RuntimeException("Incorrect password");
         }
-        String token = jwtUtil.generateToken(loginDto.getUsername());
-       return new LoginResponseDto(token);
+        String token = jwtUtil.generateToken(user.getUsername());
+
+       return new LoginResponseDto(
+               token, user.getUserId(), user.getUsername()
+       );
     }
 }

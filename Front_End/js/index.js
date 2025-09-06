@@ -23,6 +23,7 @@ $(document).ready(function () {
         const confirmPasswordu = $('#regConfirmPassword').val();
         const roleu = "USER";
 
+
         if (passwordu !== confirmPasswordu ){
             new Noty({
                 type: "error",
@@ -77,9 +78,16 @@ $(document).ready(function () {
             contentType:'application/json',
             data:JSON.stringify(loginData),
             success:function (res){
-                const token = res.data.accessToken;
+                 const token = res.data.accessToken;
+                 const userId = res.data.userId;
+                 const userName = res.data.username;
+                if (token) localStorage.setItem("token", token);
+                if (userId !== undefined && userId !== null) localStorage.setItem("userId", userId.toString());
+                if (userName) localStorage.setItem("username", userName);
+
                 console.log("Login success. Token:",token);
-                localStorage.setItem("token",token);
+                console.log(userId);
+
                 setTimeout(()=>{
                     redirectBasedOnRole(token);
                 },100);

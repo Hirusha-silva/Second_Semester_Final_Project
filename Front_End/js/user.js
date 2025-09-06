@@ -1,6 +1,12 @@
 $(document).ready(function (){
     loadCategories();
     loadBrandModels();
+
+    const userId = localStorage.getItem("userId");
+    console.log(userId);
+
+
+
     $('#postAdModal').on('shown.bs.modal', function () {
 
         // modal fully visible → set focus
@@ -82,4 +88,8 @@ $(document).ready(function (){
             if(firstFocusable) firstFocusable.focus();
         }, { once: true });
     });
+
+
+
+
 })
