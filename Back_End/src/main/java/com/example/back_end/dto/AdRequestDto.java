@@ -21,11 +21,11 @@ public class AdRequestDto {
 //    private LocalDate  postDate = LocalDate.now();
 
     @JsonProperty("userId")
-    private Long user_id;
+    private Long userId;
 
     @JsonProperty("categoryId")
-    private Long category_id;
+    private Long categoryId;
 
     @JsonProperty("modelId")
-    private Long model_id;
+    private Long modelId;
 }

@@ -34,11 +34,11 @@ public class AdServiceImpl implements AdService {
 
 
 
-        ad.setUser(userRepo.findById(dto.getUser_id())
+        ad.setUser(userRepo.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found")));
-        ad.setCategory(categoryRepo.findById(dto.getCategory_id())
+        ad.setCategory(categoryRepo.findById(dto.getCategoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found")));
-        ad.setVehicleModel(vehicleModelRepo.findById(dto.getModel_id())
+        ad.setVehicleModel(vehicleModelRepo.findById(dto.getModelId())
                 .orElseThrow(() -> new RuntimeException("Vehicle model not found")));
 
         // Save ad first

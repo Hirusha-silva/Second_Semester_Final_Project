@@ -5,6 +5,11 @@ $(document).ready(function (){
     const userId = localStorage.getItem("userId");
     console.log(userId);
 
+    const token = localStorage.getItem("token");
+    console.log(token)
+
+
+
 
 
     $('#postAdModal').on('shown.bs.modal', function () {
@@ -27,7 +32,7 @@ $(document).ready(function (){
                 const $categories = $("#category");
                 $categories.empty().append('<option value="">Select Category</option>');
                 category.forEach(cat => {
-                    $categories.append(`<option value="${cat.id}">${cat.name}</option>`);
+                    $categories.append(`<option value="${cat.categoryId}">${cat.name}</option>`);
                     console.log(cat.id,cat.name)
                 })
             }
@@ -64,7 +69,7 @@ $(document).ready(function (){
                     const models = bms.filter(bm => bm.brand === selectedBrand);
                     console.log(models);
                     models.forEach(m => {
-                        $model.append(`<option value="${m.model}">${m.model}</option>`);
+                        $model.append(`<option value="${m.modelId}">${m.model}</option>`);
 
                     });
                 });
@@ -77,6 +82,8 @@ $(document).ready(function (){
 
    // open post ad
     $('#postAD').on('click', function() {
+        e.preventDefault();
+        console.log(userId);
 
         var modalEl = document.getElementById('postAdModal');
         var modal = new bootstrap.Modal(modalEl);
@@ -88,6 +95,58 @@ $(document).ready(function (){
             if(firstFocusable) firstFocusable.focus();
         }, { once: true });
     });
+
+   // post add
+    $("#postAdData").on("click", function (e) {
+
+        // Prepare DTO
+        let adData = {
+            title: $("#title").val(),
+            description: $("#description").val(),
+            price: parseFloat($("#price").val()),
+            location: $("#location").val(),
+            userId: parseInt(userId),
+            categoryId: parseInt($("#category").val()),
+            modelId: parseInt($("#model").val())
+        };
+
+        let formData = new FormData();
+        formData.append("ad", JSON.stringify(adData));
+
+        // Append photos
+        const files = $("#photos")[0].files;
+        for (let i = 0; i < files.length; i++) {
+            formData.append("photos", files[i]);
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/api/ads",
+            method: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            headers: { Authorization: "Bearer " + token },
+            success: function (res) {
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "saved",
+                    timeout: 3000
+                }).show();
+                $("#adForm")[0].reset();
+                $("#postAdModal").modal("hide");
+            },
+            error: function (xhr) {
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Not Save",
+                    timeout: 3000
+                }).show();
+            }
+        });
+    });
+
 
 
 
