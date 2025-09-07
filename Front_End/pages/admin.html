@@ -8,304 +8,237 @@
     <style>
         body {
             font-family: 'Segoe UI', sans-serif;
+            background: #f0f4f8;
             margin: 0;
-            background: #f4f6f9;
-            display: flex;
-            height: 100vh;
         }
 
         /* ===== SIDEBAR ===== */
         .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
             width: 250px;
-            background: #212529;
+            background: linear-gradient(180deg, #ff6b6b, #ff8787);
             color: #fff;
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            padding: 1rem 0;
+            padding-top: 2rem;
+            box-shadow: 2px 0 12px rgba(0,0,0,0.2);
         }
         .sidebar h2 {
-            font-size: 1.4rem;
-            font-weight: bold;
             text-align: center;
+            font-size: 1.6rem;
             margin-bottom: 2rem;
-            color: #ff6b6b;
+            font-weight: 700;
         }
         .sidebar a {
-            color: #adb5bd;
-            padding: 0.8rem 1.2rem;
             display: block;
+            padding: 0.9rem 1.5rem;
+            color: #fff;
             text-decoration: none;
-            transition: 0.3s;
             font-weight: 500;
+            transition: 0.3s;
+            cursor: pointer;
         }
         .sidebar a:hover, .sidebar a.active {
-            background: #ff6b6b;
-            color: #fff;
+            background: rgba(255,255,255,0.15);
             border-radius: 0.5rem;
-            margin: 0 0.5rem;
+            padding-left: 2rem;
         }
 
         /* ===== MAIN CONTENT ===== */
         .main {
-            flex-grow: 1;
-            padding: 1.5rem 2rem;
-            overflow-y: auto;
+            margin-left: 250px;
+            padding: 2rem;
         }
 
-        /* ===== HEADER BAR ===== */
-        .header-bar {
-            background: #fff;
-            padding: 1rem 2rem;
-            border-radius: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-        }
-        .header-bar h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin: 0;
-            color: #333;
-        }
-        .header-bar button {
-            background: #ff6b6b;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 0.5rem;
-            color: #fff;
-            font-weight: 500;
-            transition: 0.3s;
-        }
-        .header-bar button:hover {
-            background: #e04848;
-        }
-
-        /* ===== STATS CARDS ===== */
-        .stats {
+        /* ===== STATUS CARDS ===== */
+        .status-cards {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
-        .stat-card {
+        .status-card {
             background: #fff;
-            border-radius: 1rem;
             padding: 1.5rem;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            border-radius: 1rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: 0.3s;
         }
-        .stat-card:hover {
+        .status-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.15);
         }
-        .stat-card h3 {
-            margin: 0;
-            font-size: 1.5rem;
+        .status-card h3 {
+            font-size: 2rem;
             font-weight: 800;
             color: #ff6b6b;
         }
-        .stat-card p {
-            margin: 0.3rem 0 0;
+        .status-card p {
             font-size: 1rem;
-            color: #666;
+            font-weight: 600;
+            margin: 0;
+            color: #555;
         }
 
         /* ===== TABLE CARDS ===== */
         .table-card {
             background: #fff;
             border-radius: 1rem;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.08);
             padding: 1.5rem;
-            margin-bottom: 2rem;
-            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            margin: 2rem 0;
         }
         .table-card h4 {
-            margin-bottom: 1rem;
             font-weight: 700;
-            color: #333;
-        }
-        table thead {
-            background: #ffe6e6;
-        }
-        table th {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            color: #6c757d;
+            margin-bottom: 1rem;
         }
         .btn-delete {
             background: #ff6b6b;
             color: #fff;
             border: none;
-            padding: 5px 12px;
             border-radius: 0.5rem;
-            font-size: 0.85rem;
-            transition: 0.3s;
+            padding: 5px 12px;
         }
         .btn-delete:hover {
             background: #e04848;
         }
-        .btn-activate {
+        .btn-mail {
             background: #20c997;
             color: #fff;
             border: none;
-            padding: 5px 12px;
             border-radius: 0.5rem;
-            font-size: 0.85rem;
-            transition: 0.3s;
+            padding: 5px 12px;
         }
-        .btn-activate:hover {
+        .btn-mail:hover {
             background: #1aa179;
         }
-        .status-badge {
-            padding: 0.35em 0.7em;
-            border-radius: 0.4rem;
-            font-weight: 600;
-            font-size: 0.8rem;
-        }
-        .status-active {
-            background: #d1f7e2;
-            color: #20c997;
-        }
-        .status-pending {
-            background: #fff3c2;
-            color: #a98400;
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 200px;
+            }
+            .main {
+                margin-left: 200px;
+            }
         }
     </style>
 </head>
 <body>
+
 <!-- SIDEBAR -->
 <div class="sidebar">
     <h2>SpareWay</h2>
-    <a href="#" class="active">Dashboard</a>
-    <a href="#">Users</a>
-    <a href="#">Active Ads</a>
-    <a href="#">Pending Ads</a>
-    <a href="#">Settings</a>
+    <a class="active" onclick="showSection('dashboard')">🏠 Dashboard</a>
+    <a onclick="showSection('users')">👥 Users</a>
+    <a onclick="showSection('active-ads')">📢 Active Ads</a>
+    <a onclick="showSection('pending-ads')">⏳ Pending Ads</a>
 </div>
 
 <!-- MAIN CONTENT -->
 <div class="main">
-    <!-- HEADER BAR -->
-    <div class="header-bar">
-        <h1>Admin Dashboard</h1>
-        <button>Logout</button>
-    </div>
 
-    <!-- STATS CARDS -->
-    <div class="stats">
-        <div class="stat-card">
-            <h3>120</h3>
-            <p>Total Users</p>
+    <!-- DASHBOARD (default) -->
+    <section id="dashboard">
+        <div class="status-cards">
+            <div class="status-card"><h3>120</h3><p>Total Users</p></div>
+            <div class="status-card"><h3>85</h3><p>Active Ads</p></div>
+            <div class="status-card"><h3>15</h3><p>Pending Ads</p></div>
+            <div class="status-card"><h3>230</h3><p>Total Listings</p></div>
         </div>
-        <div class="stat-card">
-            <h3>85</h3>
-            <p>Active Ads</p>
+        <div class="table-card">
+            <h4>👥 All Users</h4>
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr><th>Name</th><th>Address</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>hirusha</td><td>wadduwa</td><td>hirusha@gmail.com</td><td>0712345678</td>
+                    <td>
+                        <button class="btn btn-sm btn-mail">Send Mail</button>
+                        <button class="btn btn-sm btn-delete">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="stat-card">
-            <h3>15</h3>
-            <p>Pending Ads</p>
-        </div>
-        <div class="stat-card">
-            <h3>5</h3>
-            <p>Admins</p>
-        </div>
-    </div>
+    </section>
 
-    <!-- USERS TABLE -->
-    <div class="table-card">
-        <h4>👥 All Users</h4>
-        <table class="table table-hover align-middle">
-            <thead>
-            <tr>
-                <th>User ID</th>
-                <th>Username</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>1</td>
-                <td>hirusha</td>
-                <td>hirusha@gmail.com</td>
-                <td>0712345678</td>
-                <td><button class="btn-delete">Delete</button></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <!-- USERS SECTION -->
+    <section id="users" style="display:none;">
+        <div class="table-card">
+            <h4>👥 Users Table</h4>
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr><th>User ID</th><th>Username</th><th>Email</th><th>Phone</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>2</td><td>silva</td><td>silva@gmail.com</td><td>0776543210</td>
+                    <td>
+                        <button class="btn btn-sm btn-mail">Send Mail</button>
+                        <button class="btn btn-sm btn-delete">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <!-- ACTIVE ADS TABLE -->
-    <div class="table-card">
-        <h4>📢 Active Ads</h4>
-        <table class="table table-hover align-middle">
-            <thead>
-            <tr>
-                <th>Ad ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Category ID</th>
-                <th>Model ID</th>
-                <th>Action</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>101</td>
-                <td>Car Engine</td>
-                <td>Good condition, 2 years used</td>
-                <td>Colombo</td>
-                <td>50,000 LKR</td>
-                <td><span class="status-badge status-active">Active</span></td>
-                <td>2</td>
-                <td>5</td>
-                <td><button class="btn-delete">Delete</button></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <!-- ACTIVE ADS SECTION -->
+    <section id="active-ads" style="display:none;">
+        <div class="table-card">
+            <h4>📢 Active Ads</h4>
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr><th>Ad ID</th><th>Title</th><th>Description</th><th>Location</th><th>Price</th><th>Status</th><th>Action</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>101</td><td>Car Engine</td><td>Good condition, 2 years used</td><td>Colombo</td><td>50,000 LKR</td>
+                    <td><span class="badge bg-success">Active</span></td>
+                    <td><button class="btn btn-sm btn-delete">Delete</button></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <!-- PENDING ADS TABLE -->
-    <div class="table-card">
-        <h4>⏳ Pending Ads</h4>
-        <table class="table table-hover align-middle">
-            <thead>
-            <tr>
-                <th>Ad ID</th>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Location</th>
-                <th>Price</th>
-                <th>Status</th>
-                <th>Category ID</th>
-                <th>Model ID</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>202</td>
-                <td>Bike Wheel</td>
-                <td>Brand new condition</td>
-                <td>Kandy</td>
-                <td>8,000 LKR</td>
-                <td><span class="status-badge status-pending">Pending</span></td>
-                <td>3</td>
-                <td>7</td>
-                <td>
-                    <button class="btn-activate">Activate</button>
-                    <button class="btn-delete">Delete</button>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
+    <!-- PENDING ADS SECTION -->
+    <section id="pending-ads" style="display:none;">
+        <div class="table-card">
+            <h4>⏳ Pending Ads</h4>
+            <table class="table table-hover align-middle">
+                <thead>
+                <tr><th>Ad ID</th><th>Title</th><th>Description</th><th>Location</th><th>Price</th><th>Status</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>202</td><td>Bike Wheel</td><td>Brand new condition</td><td>Kandy</td><td>8,000 LKR</td>
+                    <td><span class="badge bg-warning text-dark">Pending</span></td>
+                    <td>
+                        <button class="btn btn-sm btn-mail">Activate</button>
+                        <button class="btn btn-sm btn-delete">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
 </div>
+
+<!-- SCRIPT TO TOGGLE SECTIONS -->
+<script>
+    function showSection(sectionId) {
+        document.querySelectorAll("section").forEach(sec => sec.style.display = "none");
+        document.getElementById(sectionId).style.display = "block";
+
+        document.querySelectorAll(".sidebar a").forEach(link => link.classList.remove("active"));
+        event.target.classList.add("active");
+    }
+</script>
 </body>
 </html>
