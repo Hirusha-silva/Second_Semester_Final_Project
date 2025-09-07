@@ -1,6 +1,8 @@
 package com.example.back_end.service.impl;
 
+import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.repo.AdRepo;
 import com.example.back_end.repo.UserRepo;
 import com.example.back_end.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class AdminServiceImpl implements AdminService {
     private final UserRepo userRepo;
+    private final AdRepo adRepo;
     @Override
     public List<UserSummaryDto> getAllUsersSummary() {
         return userRepo.findAllUserSummaries()
@@ -24,6 +27,11 @@ public class AdminServiceImpl implements AdminService {
                         (String) obj[3]
                 ))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PendingAdDto> getAllPendingAds() {
+        return adRepo.findAllPendingAds();
     }
 
 //    @Override

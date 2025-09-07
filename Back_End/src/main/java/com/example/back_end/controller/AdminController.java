@@ -1,6 +1,7 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.dto.ApiResponseDto;
+import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
 import com.example.back_end.service.AdminService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +25,11 @@ public class AdminController {
         return ResponseEntity.ok(new ApiResponseDto(200, "All users fetched successfully", users));
     }
 
+    @GetMapping("/pending-ads")
+    public ResponseEntity<ApiResponseDto> getAllPendingAds() {
+        List<PendingAdDto> pendingAds = adminService.getAllPendingAds();
+        return ResponseEntity.ok(new ApiResponseDto(200, "Pending Ads Loaded", pendingAds));
+    }
 
 //    @GetMapping("/users/{id}")
 //    public UserSummaryDto getUserSummary(@PathVariable Long id) {

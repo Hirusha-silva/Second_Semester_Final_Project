@@ -1,5 +1,6 @@
 package com.example.back_end.dto;
 
+import com.example.back_end.entity.AdStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -11,6 +12,6 @@ public class PendingAdDto {
     private String description;
     private String location;
     private double price;
-    private String status;
-    private String postedBy;
+    private AdStatus status;
+    private String username;
 }
