@@ -12,7 +12,7 @@ import java.util.Optional;
 public interface UserRepo extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
 
-    @Query("SELECT u.name, u.address, u.email, u.phone FROM User u")
+    @Query("SELECT u.name, u.email, u.phone, u.address FROM User u WHERE u.role = 'USER'")
     List<Object[]> findAllUserSummaries();
     //Optional<UserSummaryDto> findUserSummaryById(Long id);
 
