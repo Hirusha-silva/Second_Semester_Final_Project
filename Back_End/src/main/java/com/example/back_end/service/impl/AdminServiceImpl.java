@@ -1,5 +1,6 @@
 package com.example.back_end.service.impl;
 
+import com.example.back_end.dto.PendingAdDetailDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
 import com.example.back_end.entity.Ad;
@@ -7,9 +8,11 @@ import com.example.back_end.entity.AdStatus;
 import com.example.back_end.repo.AdRepo;
 import com.example.back_end.repo.UserRepo;
 import com.example.back_end.service.AdminService;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.ResourceAccessException;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -36,6 +39,30 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<PendingAdDto> getAllPendingAds() {
         return adRepo.findAllPendingAds();
+    }
+
+    @Override
+    public PendingAdDetailDto getPendingAdDetails(Long adId) {
+        Ad ad = adRepo.findById(adId).orElseThrow(() -> new EntityNotFoundException("Ad not found"));
+        return new PendingAdDetailDto(
+                ad.getAdId(),
+                ad.getTitle(),
+                ad.getDescription(),
+                ad.getLocation(),
+                ad.getPrice(),
+                ad.getStatus(),
+                ad.getUser().getUsername(),
+                ad.getUser().getEmail(),
+                ad.getUser().getPhone(),
+                ad.getPhotos().stream().map(photo -> photo.getPhotoUrl()).collect(Collectors.toList())
+        );
+    }
+
+    @Override
+    public void deleteAd(Long adId) {
+        Ad ad = adRepo.findById(adId)
+                .orElseThrow(() -> new RuntimeException("Ad not found with id: " + adId));
+        adRepo.delete(ad);
     }
 
 //    @Override

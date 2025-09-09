@@ -48,26 +48,6 @@
         </div>
     </section>
 
-    <!-- USERS SECTION -->
-<!--    <section id="users" style="display:none;">-->
-<!--        <div class="table-card">-->
-<!--            <h4>👥 Users Table</h4>-->
-<!--            <table  class="table table-hover align-middle">-->
-<!--                <thead>-->
-<!--                <tr><th>User ID</th><th>Username</th><th>Email</th><th>Phone</th><th>Actions</th></tr>-->
-<!--                </thead>-->
-<!--                <tbody>-->
-<!--                <tr>-->
-<!--                    <td>2</td><td>silva</td><td>silva@gmail.com</td><td>0776543210</td>-->
-<!--                    <td>-->
-<!--                        <button class="btn btn-sm btn-mail">Send Mail</button>-->
-<!--                        <button class="btn btn-sm btn-delete">Delete</button>-->
-<!--                    </td>-->
-<!--                </tr>-->
-<!--                </tbody>-->
-<!--            </table>-->
-<!--        </div>-->
-<!--    </section>-->
 
     <!-- ACTIVE ADS SECTION -->
     <section id="active-ads" style="display:none;">
@@ -88,32 +68,78 @@
         </div>
     </section>
 
-    <!-- PENDING ADS SECTION -->
+    <!-- PENDING ADS -->
     <section id="pending-ads" style="display:none;">
         <div class="table-card">
             <h4>⏳ Pending Ads</h4>
-            <table  id="pendingAd" class="table table-hover align-middle">
+            <table id="pendingAd" class="table table-hover align-middle">
                 <thead>
-                <tr><th>Ad ID</th><th>Title</th><th>Description</th><th>Location</th><th>Price</th><th>Status</th><th>User</th><th>Actions</th></tr>
-                </thead>
-                <tbody>
                 <tr>
-                    <td>202</td><td>Bike Wheel</td><td>Brand new condition</td><td>Kandy</td><td>8,000 LKR</td>
-                    <td><span class="badge bg-warning text-dark">Pending</span></td>
-                    <td>hirusha</td>
-                    <td>
-                        <button class="btn btn-sm btn-mail">Activate</button>
-                        <button class="btn btn-sm btn-delete">Delete</button>
-                    </td>
+                    <th>Ad ID</th><th>Title</th><th>Description</th><th>Location</th>
+                    <th>Price</th><th>Status</th><th>User</th><th>Actions</th>
                 </tr>
-                </tbody>
+                </thead>
+                <tbody></tbody>
             </table>
         </div>
     </section>
 
 </div>
+
+<!-- Modal for Pending Ad Details -->
+<div class="modal fade" id="adDetailModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Ad Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <!-- Carousel -->
+                    <div class="col-md-7">
+                        <div id="adPhotosCarousel" class="carousel slide" data-bs-ride="carousel">
+                            <div class="carousel-inner" id="adPhotosCarouselInner"></div>
+                            <button class="carousel-control-prev" type="button" data-bs-target="#adPhotosCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#adPhotosCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </button>
+                        </div>
+                        <div class="mt-2 d-flex flex-wrap justify-content-center" id="carouselThumbnails"></div>
+                    </div>
+                    <!-- Ad Info -->
+                    <div class="col-md-5">
+                        <p><strong>Description:</strong><span id="modalDescription"></span></p>
+                        <p><strong>Location:</strong> <span id="modalLocation"></span></p>
+                        <p><strong>Price:</strong> <span id="modalPrice"></span></p>
+                        <p><strong>User:</strong> <span id="modalUser"></span></p>
+                        <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                        <p><strong>Phone:</strong> <span id="modalPhone"></span></p>
+                        <div class="mt-4">
+                            <button class="btn btn-success activate-ad">Activate</button>
+                            <button class="btn btn-danger delete-ad">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="zoomModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content p-0">
+            <img id="zoomImg" src="" style="width:100%; height:auto; object-fit:contain;">
+        </div>
+    </div>
+</div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/noty/lib/noty.min.js"></script>
 <script src="../js/admin.js"></script>
+
 </body>
 </html>

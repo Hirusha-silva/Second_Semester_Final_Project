@@ -1,30 +1,36 @@
 $(document).ready(function () {
     const token = localStorage.getItem("token");
+    // let selectedAdId = null;
 
-    // ===== SHOW SECTION =====
     function showSection(sectionId) {
-        $("section").hide();           // hide all sections
-        $("#" + sectionId).show();     // show the selected section
+        $("section").hide();
+        $("#" + sectionId).show();
         $(".sidebar a").removeClass("active");
         $(`.sidebar a[data-section="${sectionId}"]`).addClass("active");
     }
 
-    // ===== LOAD USERS TABLE =====
+    //load users
     function loadUsers() {
         $.ajax({
             url: "http://localhost:8080/admin/users",
             method: "GET",
             headers: { Authorization: "Bearer " + token },
-            success: function (response) {
-                if (response && response.status === 200) {
-                    const users = response.data;
+            success: function (res) {
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Load users successfully",
+                    timeout: 2000
+                }).show();
+                if (res.status === 200) {
+                    const users = res.data;
                     $("#userTable tbody").empty();
                     users.forEach(user => {
                         $("#userTable tbody").append(`
                             <tr>
-                                <td>${user.name}</td> 
-                                <td>${user.address || "-"}</td> 
-                                <td>${user.email}</td> 
+                                <td>${user.name}</td>
+                                <td>${user.address || "-"}</td>
+                                <td>${user.email}</td>
                                 <td>${user.phone}</td>
                                 <td>
                                     <button class="btn btn-sm btn-mail">Send Mail</button>
@@ -33,47 +39,46 @@ $(document).ready(function () {
                             </tr>
                         `);
                     });
-                    new Noty({ type: "success", layout: "topRight", text: "Users loaded", timeout: 2000 }).show();
                 }
             },
-            error: function () {
-                new Noty({ type: "error", layout: "topRight", text: "Failed to load users", timeout: 3000 }).show();
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed to load users: " + xhr.responseText,
+                    timeout: 2000
+                }).show();
             }
+
         });
     }
 
-    // ===== LOAD STATUS CARDS =====
+   // load status cards
     function loadStatusCards() {
-        $.ajax({
-            url: "http://localhost:8080/admin/status-cards", // optional endpoint if dynamic
-            method: "GET",
-            headers: { Authorization: "Bearer " + token },
-            success: function (response) {
-                // example: response = { totalUsers:120, activeAds:85, pendingAds:15, totalListings:230 }
-                const data = response?.data || { totalUsers:120, activeAds:85, pendingAds:15, totalListings:230 };
-                const cardsHtml = `
-                    <div class="status-card"><h3>${data.totalUsers}</h3><p>Total Users</p></div>
-                    <div class="status-card"><h3>${data.activeAds}</h3><p>Active Ads</p></div>
-                    <div class="status-card"><h3>${data.pendingAds}</h3><p>Pending Ads</p></div>
-                    <div class="status-card"><h3>${data.totalListings}</h3><p>Total Listings</p></div>
-                `;
-                $(".status-cards").html(cardsHtml);
-            },
-            error: function () {
-                console.log("Failed to load status cards, using defaults");
-            }
-        });
+        const data = { totalUsers:120, activeAds:85, pendingAds:15, totalListings:230 };
+        $(".status-cards").html(`
+            <div class="status-card"><h3>${data.totalUsers}</h3><p>Total Users</p></div>
+            <div class="status-card"><h3>${data.activeAds}</h3><p>Active Ads</p></div>
+            <div class="status-card"><h3>${data.pendingAds}</h3><p>Pending Ads</p></div>
+            <div class="status-card"><h3>${data.totalListings}</h3><p>Total Listings</p></div>
+        `);
     }
 
-    // ===== LOAD PENDING ADS =====
+   // load pending ads
     function loadPendingAds() {
         $.ajax({
             url: "http://localhost:8080/admin/pending-ads",
             method: "GET",
             headers: { Authorization: "Bearer " + token },
-            success: function (response) {
-                if (response && response.status === 200) {
-                    const ads = response.data;
+            success: function (res) {
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Load pending ads successfully!",
+                    timeout: 2000
+                }).show();
+                if (res.status === 200) {
+                    const ads = res.data;
                     $("#pendingAd tbody").empty();
                     ads.forEach(ad => {
                         $("#pendingAd tbody").append(`
@@ -86,36 +91,136 @@ $(document).ready(function () {
                                 <td>${ad.status}</td>
                                 <td>${ad.username}</td>
                                 <td>
-                                    <button class="btn btn-sm btn-mail">Activate</button>
-                                    <button class="btn btn-sm btn-delete">Delete</button>
+                                    <button class="btn btn-sm btn-primary view-details" data-id="${ad.id}">View</button>
                                 </td>
                             </tr>
                         `);
                     });
-                    new Noty({ type: "success", layout: "topRight", text: "Pending ads loaded", timeout: 2000 }).show();
                 }
             },
-            error: function () {
-                new Noty({ type: "error", layout: "topRight", text: "Failed to load pending ads", timeout: 3000 }).show();
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Load pending ads fail: " + xhr.responseText,
+                    timeout: 2000
+                }).show();
             }
+
         });
     }
 
-    // ===== SIDEBAR CLICK EVENTS =====
+    //side bar
     $(".sidebar a").click(function (e) {
         e.preventDefault();
         const sectionId = $(this).data("section");
         showSection(sectionId);
-
-        if (sectionId === "dashboard") {
-            loadUsers();
-            loadStatusCards();
-        } else if (sectionId === "pending-ads") {
-            loadPendingAds();
-        }
+        if (sectionId === "dashboard") { loadUsers(); loadStatusCards(); }
+        if (sectionId === "pending-ads") loadPendingAds();
     });
 
-    // ===== INITIAL LOAD =====
+    //open ad details model
+    $(document).on("click", ".view-details", function () {
+        selectedAdId = $(this).data("id");
+        $.ajax({
+            url: `http://localhost:8080/admin/pending-ads/${selectedAdId}`,
+            method: "GET",
+            headers: { Authorization: "Bearer " + token },
+            success: function (res) {
+                const ad = res.data;
+                $("#modalTitle").text(ad.title);
+                $("#modalDescription").text(ad.description);
+                $("#modalLocation").text(ad.location);
+                $("#modalPrice").text(ad.price + " LKR");
+                $("#modalUser").text(ad.username);
+                $("#modalEmail").text(ad.email);
+                $("#modalPhone").text(ad.phone);
+
+                // Carousel
+                let html = "";
+                let thumbs = "";
+                ad.photos.forEach((url, i) => {
+                    html += `<div class="carousel-item ${i===0?'active':''}"><img src="${url}" class="d-block w-100" alt="Ad Photo"></div>`;
+                    thumbs += `<img src="${url}" class="${i===0?'active-thumb':''}" data-bs-slide-to="${i}" data-bs-target="#adPhotosCarousel">`;
+                });
+                $("#adPhotosCarouselInner").html(html);
+                $("#carouselThumbnails").html(thumbs);
+
+                // Thumbnail click
+                $("#carouselThumbnails img").click(function(){
+                    $("#carouselThumbnails img").removeClass("active-thumb");
+                    $(this).addClass("active-thumb");
+                    bootstrap.Carousel.getOrCreateInstance(document.getElementById('adPhotosCarousel')).to($(this).data("bs-slide-to"));
+                });
+
+                // Zoom on click
+                $("#adPhotosCarouselInner img").off("click").on("click", function(){
+                    const src = $(this).attr("src");
+                    $("#zoomImg").attr("src", src);
+                    var zoomModal = new bootstrap.Modal(document.getElementById('zoomModal'));
+                    zoomModal.show();
+                });
+
+                bootstrap.Modal.getOrCreateInstance(document.getElementById('adDetailModal')).show();
+            }
+        });
+    });
+
+    //ads active
+    $(document).on("click", ".activate-ad", function () {
+        const adId = $(this).data("id") || selectedAdId;
+        $.ajax({
+            url: `http://localhost:8080/admin/pending-ads/${adId}/activate`,
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token },
+            success: function () {
+                new Noty({ type:"success", text:"Ad activated!", timeout:2000 }).show();
+
+                const modalEl = document.getElementById('adDetailModal');
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(modalEl);
+                modalInstance.hide();
+
+                loadPendingAds();
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Ad active fail !" + xhr.responseText,
+                    timeout: 2000
+                }).show();
+            }
+        });
+    });
+
+    //delete ads
+    $(document).on("click", ".delete-ad", function () {
+        const adId = $(this).data("id") || selectedAdId;
+        $.ajax({
+            url: `http://localhost:8080/admin/delete/${adId}`,
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+            success: function () {
+
+                const modalEl = document.getElementById('adDetailModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+
+                new Noty({ type:"success", text:"Ad deleted!", timeout:2000 }).show();
+                loadPendingAds();
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed AD delete !" + xhr.responseText,
+                    timeout: 2000
+                }).show();
+            }
+        });
+    });
+
+    // Initial load
     showSection("dashboard");
     loadUsers();
     loadStatusCards();

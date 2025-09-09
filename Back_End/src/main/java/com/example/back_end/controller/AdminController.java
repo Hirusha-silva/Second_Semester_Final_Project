@@ -1,6 +1,7 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.dto.ApiResponseDto;
+import com.example.back_end.dto.PendingAdDetailDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
 import com.example.back_end.entity.Ad;
@@ -22,12 +23,14 @@ public class AdminController {
     private final AdminServiceImpl adminServiceImpl;
     private final EmailService emailService;
 
+    //load all users admin page
     @GetMapping("/users")
     public ResponseEntity<ApiResponseDto> getAllUsers() {
         List<UserSummaryDto> users = adminService.getAllUsersSummary();
         return ResponseEntity.ok(new ApiResponseDto(200, "All users fetched successfully", users));
     }
 
+   // load all pending ads admin page
     @GetMapping("/pending-ads")
     public ResponseEntity<ApiResponseDto> getAllPendingAds() {
         List<PendingAdDto> pendingAds = adminService.getAllPendingAds();
@@ -39,6 +42,7 @@ public class AdminController {
 //        return adminService.getUserSummaryById(id);
 //    }
 
+    //Pending ads update active ads
     @PutMapping("/pending-ads/{adId}/activate")
     public ResponseEntity<?> activateAd(@PathVariable Long adId) {
         Ad ad = adminServiceImpl.activateAd(adId);
@@ -54,5 +58,19 @@ public class AdminController {
                 "status", 200,
                 "message", "Ad activated and email sent"
         ));
+    }
+
+    @GetMapping("/pending-ads/{adId}")
+    public ResponseEntity<?> getPendingAdDetails(@PathVariable Long adId) {
+        PendingAdDetailDto pendingAdDetailDto = adminService.getPendingAdDetails(adId);
+        return ResponseEntity.ok(
+                new ApiResponseDto(200, "Pending ad details fetched successfully", pendingAdDetailDto)
+        );
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<ApiResponseDto> deleteAd(@PathVariable("id") Long id) {
+        adminService.deleteAd(id);
+        return ResponseEntity.ok(new ApiResponseDto(200, "Ad deleted successfully",id));
     }
 }
