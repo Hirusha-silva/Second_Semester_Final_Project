@@ -3,21 +3,24 @@ package com.example.back_end.controller;
 import com.example.back_end.dto.ApiResponseDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.entity.Ad;
 import com.example.back_end.service.AdminService;
+import com.example.back_end.service.impl.AdminServiceImpl;
+import com.example.back_end.service.impl.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
 @RequiredArgsConstructor
 public class AdminController {
     private final AdminService adminService;
+    private final AdminServiceImpl adminServiceImpl;
+    private final EmailService emailService;
 
     @GetMapping("/users")
     public ResponseEntity<ApiResponseDto> getAllUsers() {
@@ -35,4 +38,21 @@ public class AdminController {
 //    public UserSummaryDto getUserSummary(@PathVariable Long id) {
 //        return adminService.getUserSummaryById(id);
 //    }
+
+    @PutMapping("/pending-ads/{adId}/activate")
+    public ResponseEntity<?> activateAd(@PathVariable Long adId) {
+        Ad ad = adminServiceImpl.activateAd(adId);
+
+        // Send email
+        emailService.sendEmail(
+                ad.getUser().getEmail(),
+                "Your Ad is Published",
+                "Hello " + ad.getUser().getUsername() + ", your ad '" + ad.getTitle() + "' is now ACTIVE!"
+        );
+
+        return ResponseEntity.ok(Map.of(
+                "status", 200,
+                "message", "Ad activated and email sent"
+        ));
+    }
 }

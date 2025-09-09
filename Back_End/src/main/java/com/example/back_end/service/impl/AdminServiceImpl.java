@@ -2,11 +2,14 @@ package com.example.back_end.service.impl;
 
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.entity.Ad;
+import com.example.back_end.entity.AdStatus;
 import com.example.back_end.repo.AdRepo;
 import com.example.back_end.repo.UserRepo;
 import com.example.back_end.service.AdminService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +19,7 @@ import java.util.stream.Collectors;
 public class AdminServiceImpl implements AdminService {
     private final UserRepo userRepo;
     private final AdRepo adRepo;
+
     @Override
     public List<UserSummaryDto> getAllUsersSummary() {
         return userRepo.findAllUserSummaries()
@@ -38,4 +42,19 @@ public class AdminServiceImpl implements AdminService {
 //    public UserSummaryDto getUserSummaryById(Long id) {
 //       return userRepo.findUserSummaryById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
 //    }
+
+    // Get ad by ID
+    public Ad getAdById(Long adId) {
+        return adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found"));
+    }
+
+    // Activate ad
+    @Transactional
+    public Ad activateAd(Long adId) {
+        Ad ad = getAdById(adId);
+        ad.setStatus(AdStatus.ACTIVE);
+        return adRepo.save(ad);
+    }
+
+
 }

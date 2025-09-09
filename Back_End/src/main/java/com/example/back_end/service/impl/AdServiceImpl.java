@@ -23,6 +23,7 @@ public class AdServiceImpl implements AdService {
     private final UserRepo userRepo;
     private final CategoryRepo categoryRepo;
     private final VehicleModelRepo vehicleModelRepo;
+
     @Override
     public Ad createAdWithPhotos(AdRequestDto dto, List<MultipartFile> photos) throws IOException {
         Ad ad = new Ad();
