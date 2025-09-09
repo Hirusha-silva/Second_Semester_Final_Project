@@ -1,5 +1,6 @@
 package com.example.back_end.repo;
 
+import com.example.back_end.dto.ActiveAdDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.AdStatus;
@@ -24,4 +25,8 @@ public interface AdRepo extends JpaRepository<Ad, Long> {
     List<PendingAdDto> findAllPendingAds();
 
     List<Ad> findByStatus(AdStatus status);
+
+    @Query("SELECT new com.example.back_end.dto.ActiveAdDto(a.adId, a.title, a.description, a.location, a.price, a.status, a.user.username) " +
+            "FROM Ad a WHERE a.status = 'ACTIVE'")
+    List<ActiveAdDto> findAllActiveAds();
 }

@@ -1,5 +1,6 @@
 package com.example.back_end.service.impl;
 
+import com.example.back_end.dto.ActiveAdDto;
 import com.example.back_end.dto.PendingAdDetailDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.dto.UserSummaryDto;
@@ -63,6 +64,11 @@ public class AdminServiceImpl implements AdminService {
         Ad ad = adRepo.findById(adId)
                 .orElseThrow(() -> new RuntimeException("Ad not found with id: " + adId));
         adRepo.delete(ad);
+    }
+
+    @Override
+    public List<ActiveAdDto> getAllActiveAds() {
+        return adRepo.findAllActiveAds();
     }
 
 //    @Override

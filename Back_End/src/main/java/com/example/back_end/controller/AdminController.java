@@ -1,9 +1,6 @@
 package com.example.back_end.controller;
 
-import com.example.back_end.dto.ApiResponseDto;
-import com.example.back_end.dto.PendingAdDetailDto;
-import com.example.back_end.dto.PendingAdDto;
-import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.service.AdminService;
 import com.example.back_end.service.impl.AdminServiceImpl;
@@ -72,5 +69,11 @@ public class AdminController {
     public ResponseEntity<ApiResponseDto> deleteAd(@PathVariable("id") Long id) {
         adminService.deleteAd(id);
         return ResponseEntity.ok(new ApiResponseDto(200, "Ad deleted successfully",id));
+    }
+
+    @GetMapping("/active-ads")
+    public ResponseEntity<ApiResponseDto> getActiveAds() {
+        List<ActiveAdDto> activeAds = adminService.getAllActiveAds();
+        return ResponseEntity.ok(new ApiResponseDto(200, "Active ads fetched successfully", activeAds));
     }
 }
