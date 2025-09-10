@@ -1,5 +1,6 @@
 package com.example.back_end.controller;
 
+import com.example.back_end.dto.AdDto;
 import com.example.back_end.dto.AdRequestDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.Category;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/ads")
@@ -51,5 +53,23 @@ public class AdController {
     @GetMapping("/models")
     public List<VehicleModel> getAllVehicleModels() {
         return vehicalModelService.getAllVehicalModels();
+    }
+
+    @GetMapping("/active")
+    public List<AdDto> getAllActiveAds() {
+        List<Ad> ads = adService.getAllActiveAds();
+
+        return ads.stream().map(ad -> AdDto.builder()
+                .adId(ad.getAdId())
+                .title(ad.getTitle())
+                .description(ad.getDescription())
+                .price(ad.getPrice())
+                .location(ad.getLocation())
+                .categoryName(ad.getCategory() != null ? ad.getCategory().getName() : "")
+                .brand(ad.getVehicleModel() != null ? ad.getVehicleModel().getBrand() : "")
+                .model(ad.getVehicleModel() != null ? ad.getVehicleModel().getModel() : "")
+                .photoUrls(ad.getPhotos().stream().map(p -> p.getPhotoUrl()).toList())
+                .build()
+        ).collect(Collectors.toList());
     }
 }
