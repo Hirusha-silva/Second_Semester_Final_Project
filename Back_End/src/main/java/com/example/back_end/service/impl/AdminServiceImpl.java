@@ -21,6 +21,7 @@ public class AdminServiceImpl implements AdminService {
     private final UserRepo userRepo;
     private final AdRepo adRepo;
 
+    //get all users for admin page
     @Override
     public List<UserSummaryDto> getAllUsersSummary() {
         return userRepo.findAllUserSummaries()
@@ -34,11 +35,13 @@ public class AdminServiceImpl implements AdminService {
                 .collect(Collectors.toList());
     }
 
+    //get all pending ads
     @Override
     public List<PendingAdDto> getAllPendingAds() {
         return adRepo.findAllPendingAds();
     }
 
+    //get pending ads details for popup window
     @Override
     public PendingAdDetailDto getPendingAdDetails(Long adId) {
         Ad ad = adRepo.findById(adId).orElseThrow(() -> new EntityNotFoundException("Ad not found"));
@@ -56,6 +59,7 @@ public class AdminServiceImpl implements AdminService {
         );
     }
 
+    //pending delete ad
     @Override
     public void deleteAd(Long adId) {
         Ad ad = adRepo.findById(adId)
@@ -63,17 +67,20 @@ public class AdminServiceImpl implements AdminService {
         adRepo.delete(ad);
     }
 
+    //get all active ads
     @Override
     public List<ActiveAdDto> getAllActiveAds() {
         return adRepo.findAllActiveAds();
     }
 
+    //active ads delete
     @Override
     public void activeDeleteAd(Long adId) {
         Ad ad = adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adId));
         adRepo.delete(ad);
     }
 
+    //get all active ads detals for popup window
     @Override
     public ActiveAdDetailDto getActiveAdDetails(Long adId) {
         Ad ad = adRepo.findById(adId).orElseThrow(() -> new EntityNotFoundException("Ad not found"));

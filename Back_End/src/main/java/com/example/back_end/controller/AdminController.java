@@ -3,8 +3,10 @@ package com.example.back_end.controller;
 import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.service.AdminService;
+import com.example.back_end.service.EmailServices;
 import com.example.back_end.service.impl.AdminServiceImpl;
 import com.example.back_end.service.impl.EmailService;
+import jakarta.mail.MessagingException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,7 @@ public class AdminController {
     private final AdminService adminService;
     private final AdminServiceImpl adminServiceImpl;
     private final EmailService emailService;
+    private final EmailServices emailServices;
 
     //load all users admin page
     @GetMapping("/users")
@@ -94,5 +97,16 @@ public class AdminController {
         return ResponseEntity.ok(
                 new ApiResponseDto(200, "Pending ad details fetched successfully", activeAdDetailDto)
         );
+    }
+
+   // send custom email to user
+    @PostMapping("/send-mail")
+    public ResponseEntity<?> sendMail(@RequestBody MailRequestDto request){
+        try {
+            emailServices.sendMail(request);
+            return ResponseEntity.ok(new ApiResponseDto(200,"Mail sent",request));
+        } catch (MessagingException e) {
+            return ResponseEntity.ok(new ApiResponseDto(500,"Mail Failed",e.getMessage()));
+        }
     }
 }
