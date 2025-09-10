@@ -262,6 +262,31 @@ $(document).ready(function () {
         });
     });
 
+    //delete active ads
+    $(document).on("click",".activeAdDelete-ad",function (){
+        const adId = $(this).data("id") || selectedAdId;
+        $.ajax({
+            url: `http://localhost:8080/admin/active/delete/${adId}`,
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+            success:function (){
+                const  modalEl = document.getElementById('activeAdDetailModal');
+                const modalInstance = bootstrap.Modal.getInstance(modalEl);
+                if (modalInstance) modalInstance.hide();
+                new Noty({ type:"success", text:"Ad deleted!", timeout:2000 }).show();
+                loadActiveAds();
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed AD delete !" + xhr.responseText,
+                    timeout: 2000
+                }).show();
+            }
+        });
+    });
+
 
 
     //ads active
