@@ -343,6 +343,54 @@ $(document).ready(function () {
         });
     });
 
+   // custom email send to user
+    $(document).on("click",".btn-mail",function (){
+        const userEmail = $(this).closest("tr").find("td:nth-child(3)").text();
+        $("#mailTo").val(userEmail);
+        $("#mailSubject").val("");
+        $("#mailBody").val("");
+        bootstrap.Modal.getOrCreateInstance(document.getElementById('sendMailModal')).show();
+    });
+
+    // Handle form submit
+    $("#sendMailForm").submit(function (e) {
+        e.preventDefault();
+
+        const requestData = {
+            to: $("#mailTo").val(),
+            subject: $("#mailSubject").val(),
+            body: $("#mailBody").val()
+        };
+
+        $.ajax({
+            url: "http://localhost:8080/admin/send-mail",
+            method: "POST",
+            headers: { Authorization: "Bearer " + token },
+            contentType: "application/json",
+            data: JSON.stringify(requestData),
+            success: function (res) {
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Mail sent successfully!",
+                    timeout: 2000
+                }).show();
+
+                bootstrap.Modal.getInstance(document.getElementById('sendMailModal')).hide();
+            },
+            error: function (xhr) {
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed to send mail: " + xhr.responseText,
+                    timeout: 3000
+                }).show();
+            }
+        });
+    });
+
+
+
 
     // Initial load
     showSection("dashboard");

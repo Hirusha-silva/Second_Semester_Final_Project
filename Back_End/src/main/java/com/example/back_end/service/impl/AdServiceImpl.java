@@ -74,4 +74,9 @@ public class AdServiceImpl implements AdService {
 
         return savedAd;
     }
+
+    @Override
+    public List<Ad> getAllActiveAds() {
+        return adRepo.findByStatus(AdStatus.ACTIVE);
+    }
 }

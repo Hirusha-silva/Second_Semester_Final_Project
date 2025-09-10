@@ -9,5 +9,6 @@ import java.util.List;
 
 public interface AdService {
     public Ad createAdWithPhotos(AdRequestDto dto, List<MultipartFile> photos) throws IOException;
+    public List<Ad> getAllActiveAds();
 
 }

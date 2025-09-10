@@ -38,7 +38,7 @@ body {
     position: relative;
     width: 100%;
     min-height: 100vh;
-    background-image: url('../img/louismoto-H_9vRBSdXAA-unsplash.jpg');
+    background-image: url('../img/meritt-thomas-U_8-rEYvXhw-unsplash.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -69,6 +69,11 @@ body {
     border-radius: 15px;
     box-shadow: 0 8px 25px rgba(0,0,0,0.3);
     transition: transform 0.3s;
+}
+
+#logo{
+    width: 300px;
+    height: auto;
 }
 .login-card:hover { transform: translateY(-5px); }
 
