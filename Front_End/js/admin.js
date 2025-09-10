@@ -1,6 +1,6 @@
 $(document).ready(function () {
     const token = localStorage.getItem("token");
-    // let selectedAdId = null;
+    let selectedAdId = null;
 
     function showSection(sectionId) {
         $("section").hide();
@@ -117,9 +117,10 @@ $(document).ready(function () {
         showSection(sectionId);
         if (sectionId === "dashboard") { loadUsers(); loadStatusCards(); }
         if (sectionId === "pending-ads") loadPendingAds();
+        if (sectionId === "active-ads") loadActiveAds();
     });
 
-    //open ad details model
+    //open pending Ad details model
     $(document).on("click", ".view-details", function () {
         selectedAdId = $(this).data("id");
         $.ajax({
@@ -166,6 +167,103 @@ $(document).ready(function () {
         });
     });
 
+
+   // load active ads
+    function loadActiveAds(){
+        $.ajax({
+            url:"http://localhost:8080/admin/active-ads",
+            method:"GET",
+            headers:{
+                Authorization: "Bearer " + token
+            },
+            success:function (res){
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Load Active ads successfully!",
+                    timeout: 2000
+                }).show();
+
+                if (res.status === 200){
+                    const ads = res.data;
+                    $("#activeAd tbody").empty();
+                    ads.forEach(ad => {
+                        $("#activeAd tbody").append(
+                            `
+                            <tr>
+                                <td>${ad.id}</td>
+                                <td>${ad.title}</td>
+                                <td>${ad.description}</td>
+                                <td>${ad.location}</td>
+                                <td>${ad.price}</td>
+                                <td>${ad.status}</td>
+                                <td>${ad.username}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-danger ActiveAd-view-details" data-id="${ad.id}">View</button>
+                                </td>
+                            </tr>
+                            `
+                        );
+                    });
+                }
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Load active ads fail: " + xhr.responseText,
+                    timeout: 2000
+                }).show();
+            }
+        })
+    }
+
+    //active ad popup window
+    $(document).on("click", ".ActiveAd-view-details", function() {
+        selectedAdId = $(this).data("id");
+
+        $.ajax({
+            url: `http://localhost:8080/admin/active-ads/${selectedAdId}`,
+            method: "GET",
+            headers: { Authorization: "Bearer " + token },
+            success: function(res) {
+                const ad = res.data;
+
+                $("#activeModalTitle").text(ad.title);
+                $("#activeModalDescription").text(ad.description);
+                $("#activeModalLocation").text(ad.location);
+                $("#activeModalPrice").text(ad.price + " LKR");
+                $("#activeModalUser").text(ad.username);
+                $("#activeModalEmail").text(ad.email);
+                $("#activeModalPhone").text(ad.phone);
+
+                // Append new carousel items
+                let html = "";
+                let thumbs = "";
+                ad.photos.forEach((url, i) => {
+                    html += `<div class="carousel-item ${i===0 ? 'active' : ''}">
+                            <img src="${url}" class="d-block w-100" alt="Ad Photo">
+                         </div>`;
+                    thumbs += `<img src="${url}" class="${i===0 ? 'active-thumb' : ''}"
+                                data-bs-slide-to="${i}" data-bs-target="#activeAdPhotosCarousel">`;
+                });
+                $("#adPhotosCarouselInnerA").html(html);
+                // $("#carouselThumbnailsA").html(thumbs);
+
+                //Thumbnail click
+                $("#carouselThumbnailsA img").click(function() {
+                    $("#carouselThumbnailsA img").removeClass("active-thumb");
+                    $(this).addClass("active-thumb");
+                    bootstrap.Carousel.getOrCreateInstance(carouselEl).to($(this).data("bs-slide-to"));
+                });
+
+                 bootstrap.Modal.getOrCreateInstance(document.getElementById('activeAdDetailModal')).show();
+            }
+        });
+    });
+
+
+
     //ads active
     $(document).on("click", ".activate-ad", function () {
         const adId = $(this).data("id") || selectedAdId;
@@ -193,7 +291,7 @@ $(document).ready(function () {
         });
     });
 
-    //delete ads
+    //delete pending ads
     $(document).on("click", ".delete-ad", function () {
         const adId = $(this).data("id") || selectedAdId;
         $.ajax({
@@ -220,8 +318,11 @@ $(document).ready(function () {
         });
     });
 
+
     // Initial load
     showSection("dashboard");
     loadUsers();
     loadStatusCards();
 });
+
+

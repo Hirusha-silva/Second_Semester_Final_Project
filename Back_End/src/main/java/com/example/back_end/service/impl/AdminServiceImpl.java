@@ -1,9 +1,6 @@
 package com.example.back_end.service.impl;
 
-import com.example.back_end.dto.ActiveAdDto;
-import com.example.back_end.dto.PendingAdDetailDto;
-import com.example.back_end.dto.PendingAdDto;
-import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.AdStatus;
 import com.example.back_end.repo.AdRepo;
@@ -69,6 +66,29 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public List<ActiveAdDto> getAllActiveAds() {
         return adRepo.findAllActiveAds();
+    }
+
+    @Override
+    public void activeDeleteAd(Long adId) {
+        Ad ad = adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found with id: " + adId));
+        adRepo.delete(ad);
+    }
+
+    @Override
+    public ActiveAdDetailDto getActiveAdDetails(Long adId) {
+        Ad ad = adRepo.findById(adId).orElseThrow(() -> new EntityNotFoundException("Ad not found"));
+        return new ActiveAdDetailDto(
+                ad.getAdId(),
+                ad.getTitle(),
+                ad.getDescription(),
+                ad.getLocation(),
+                ad.getPrice(),
+                ad.getStatus(),
+                ad.getUser().getUsername(),
+                ad.getUser().getEmail(),
+                ad.getUser().getPhone(),
+                ad.getPhotos().stream().map(photo -> photo.getPhotoUrl()).collect(Collectors.toList())
+        );
     }
 
 //    @Override

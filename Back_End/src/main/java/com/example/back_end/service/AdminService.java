@@ -1,9 +1,6 @@
 package com.example.back_end.service;
 
-import com.example.back_end.dto.ActiveAdDto;
-import com.example.back_end.dto.PendingAdDetailDto;
-import com.example.back_end.dto.PendingAdDto;
-import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.dto.*;
 
 import java.util.List;
 
@@ -13,6 +10,8 @@ public interface AdminService {
     public PendingAdDetailDto getPendingAdDetails(Long adId);
     public void deleteAd(Long adId);
     List<ActiveAdDto> getAllActiveAds();
+    public void activeDeleteAd(Long adId);
+    public ActiveAdDetailDto getActiveAdDetails(Long adId);
 
   //  UserSummaryDto getUserSummaryById(Long id);
 }

@@ -39,7 +39,7 @@ public class AdminController {
 //        return adminService.getUserSummaryById(id);
 //    }
 
-    //Pending ads update active ads
+    //Pending ads update to active ads
     @PutMapping("/pending-ads/{adId}/activate")
     public ResponseEntity<?> activateAd(@PathVariable Long adId) {
         Ad ad = adminServiceImpl.activateAd(adId);
@@ -57,6 +57,7 @@ public class AdminController {
         ));
     }
 
+    // Get Pending ads detail
     @GetMapping("/pending-ads/{adId}")
     public ResponseEntity<?> getPendingAdDetails(@PathVariable Long adId) {
         PendingAdDetailDto pendingAdDetailDto = adminService.getPendingAdDetails(adId);
@@ -65,15 +66,33 @@ public class AdminController {
         );
     }
 
+    //Pending ads delete
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ApiResponseDto> deleteAd(@PathVariable("id") Long id) {
         adminService.deleteAd(id);
         return ResponseEntity.ok(new ApiResponseDto(200, "Ad deleted successfully",id));
     }
 
+   // Get all active ads
     @GetMapping("/active-ads")
     public ResponseEntity<ApiResponseDto> getActiveAds() {
         List<ActiveAdDto> activeAds = adminService.getAllActiveAds();
         return ResponseEntity.ok(new ApiResponseDto(200, "Active ads fetched successfully", activeAds));
+    }
+
+    //active ad delete
+    @DeleteMapping("/active/delete/{id}")
+    public ResponseEntity<ApiResponseDto> deleteActiveAd(@PathVariable("id") Long id) {
+        adminService.deleteAd(id);
+        return ResponseEntity.ok(new ApiResponseDto(200, "Ad deleted successfully",id));
+    }
+
+    //load active ads details for pop up window
+    @GetMapping("/active-ads/{adId}")
+    public ResponseEntity<ApiResponseDto> getActiveAdDetails(@PathVariable("adId") Long adId) {
+        ActiveAdDetailDto activeAdDetailDto = adminService.getActiveAdDetails(adId);
+        return ResponseEntity.ok(
+                new ApiResponseDto(200, "Pending ad details fetched successfully", activeAdDetailDto)
+        );
     }
 }
