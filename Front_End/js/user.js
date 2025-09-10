@@ -1,12 +1,13 @@
 $(document).ready(function (){
-    loadCategories();
-    loadBrandModels();
-
     const userId = localStorage.getItem("userId");
     console.log(userId);
 
     const token = localStorage.getItem("token");
     console.log(token)
+
+    loadCategories();
+    loadBrandModels();
+    loadAllActiveAds();
 
 
 
@@ -147,7 +148,38 @@ $(document).ready(function (){
         });
     });
 
+    function loadAllActiveAds() {
+        $.ajax({
+            url: "http://localhost:8080/api/ads/active",
+            method: "GET",
+            headers: { Authorization: "Bearer " + token },
+            success: function (ads) {
+                const container = $("#adsContainer");
+                container.empty();
 
+                ads.forEach(ad => {
+                    const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+                    const adCard = `
+                    <div class="col-md-4">
+                        <div class="ad-card card">
+                            <img src="${firstPhoto}" class="card-img-top" alt="${ad.title}">
+                            <div class="card-body">
+                                <h5>${ad.title}</h5>
+                                <p>Price: Rs. ${ad.price}</p>
+                                <p>Location: ${ad.location}</p>
+                                <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                    container.append(adCard);
+                });
+            },
+            error: function () {
+                console.error("Failed to load active ads");
+            }
+        });
+    }
 
 
 
