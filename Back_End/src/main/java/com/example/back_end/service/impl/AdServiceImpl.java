@@ -1,6 +1,7 @@
 package com.example.back_end.service.impl;
 
 import com.example.back_end.dto.AdRequestDto;
+import com.example.back_end.dto.UserActiveAdDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.AdPhoto;
 import com.example.back_end.entity.AdStatus;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class AdServiceImpl implements AdService {
@@ -78,5 +81,28 @@ public class AdServiceImpl implements AdService {
     @Override
     public List<Ad> getAllActiveAds() {
         return adRepo.findByStatus(AdStatus.ACTIVE);
+    }
+
+    @Override
+    public  UserActiveAdDto getUserActiveAds(Long adId) {
+        Ad ad = adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found"+adId));
+
+        return new UserActiveAdDto(
+                ad.getAdId(),
+                ad.getTitle(),
+                ad.getDescription(),
+                ad.getLocation(),
+                ad.getPrice(),
+                ad.getStatus(),
+                ad.getUser().getName(),
+                ad.getUser().getEmail(),
+                ad.getUser().getPhone(),
+                ad.getCategory().getName(),
+                ad.getVehicleModel().getBrand(),
+                ad.getVehicleModel().getModel(),
+                ad.getPhotos().stream()
+                        .map(AdPhoto::getPhotoUrl)
+                        .collect(Collectors.toList())
+        );
     }
 }

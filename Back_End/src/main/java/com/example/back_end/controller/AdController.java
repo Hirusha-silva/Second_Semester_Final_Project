@@ -2,6 +2,7 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.AdDto;
 import com.example.back_end.dto.AdRequestDto;
+import com.example.back_end.dto.UserActiveAdDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.Category;
 import com.example.back_end.entity.VehicleModel;
@@ -71,5 +72,11 @@ public class AdController {
                 .photoUrls(ad.getPhotos().stream().map(p -> p.getPhotoUrl()).toList())
                 .build()
         ).collect(Collectors.toList());
+    }
+
+    @GetMapping("/active/{adId}")
+    public ResponseEntity<UserActiveAdDto> getActiveAdDetails(@PathVariable Long adId) {
+        UserActiveAdDto dto = adService.getUserActiveAds(adId);
+        return ResponseEntity.ok(dto);
     }
 }
