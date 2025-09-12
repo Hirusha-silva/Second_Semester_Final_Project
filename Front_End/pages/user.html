@@ -140,6 +140,55 @@
         </div>
     </div>
 </div>
+<!-- Active Ad Details Modal -->
+<div class="modal fade" id="activeAdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="activeAdTitle">Ad Title</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Carousel -->
+                <div id="activeAdCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="activeAdCarouselInner"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#activeAdCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#activeAdCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+
+                <!-- Ad Info -->
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><b>Price:</b> Rs. <span id="activeAdPrice"></span></p>
+                        <p><b>Location:</b> <span id="activeAdLocation"></span></p>
+                        <p><b>Category:</b> <span id="activeAdCategory"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>Brand:</b> <span id="activeAdBrand"></span></p>
+                        <p><b>Model:</b> <span id="activeAdModel"></span></p>
+                    </div>
+                </div>
+
+                <hr>
+                <p><b>Description:</b></p>
+                <p id="activeAdDescription"></p>
+                <hr>
+                <p><b>Seller Info:</b></p>
+                <p>Name: <span id="activeAdSellerName"></span></p>
+                <p>Email: <span id="activeAdSellerEmail"></span></p>
+                <p>Phone: <span id="activeAdSellerPhone"></span></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

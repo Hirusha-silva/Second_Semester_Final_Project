@@ -197,3 +197,24 @@ body {
 .chat-input button:hover {
     background: #0284c7;
 }
+
+/* Active Ad Modal */
+#activeAdModal .modal-content {
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+#activeAdModal .modal-header {
+    border-bottom: none;
+    font-weight: 700;
+}
+
+#activeAdModal .carousel-inner img {
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+#activeAdModal p {
+    font-size: 0.95rem;
+}
