@@ -9,10 +9,6 @@ $(document).ready(function (){
     loadBrandModels();
     loadAllActiveAds();
 
-
-
-
-
     $('#postAdModal').on('shown.bs.modal', function () {
 
         // modal fully visible → set focus
@@ -148,6 +144,7 @@ $(document).ready(function (){
         });
     });
 
+    //all active ads load
     function loadAllActiveAds() {
         $.ajax({
             url: "http://localhost:8080/api/ads/active",
@@ -181,6 +178,56 @@ $(document).ready(function (){
         });
     }
 
+    $(document).on("click", ".view-ad", function() {
+        const adId = $(this).data("id");
+        openActivePopup(adId);
+    });
 
+ //open active ads popup window
+    function openActivePopup(adId){
+        $.ajax({
+            url:`http://localhost:8080/api/ads/active/${adId}`,
+            method:"GET",
+            headers: { Authorization: "Bearer " + token },
+            success:function (ad){
+
+                $("#activeAdTitle").text(ad.title);
+                $("#activeAdPrice").text(ad.price);
+                $("#activeAdLocation").text(ad.location);
+                $("#activeAdCategory").text(ad.categoryName);
+                $("#activeAdBrand").text(ad.brand);
+                $("#activeAdModel").text(ad.model);
+                $("#activeAdDescription").text(ad.description);
+                $("#activeAdSellerName").text(ad.name);
+                $("#activeAdSellerEmail").text(ad.email);
+                $("#activeAdSellerPhone").text(ad.phone);
+
+                // Carousel
+                const carouselInner = $("#activeAdCarouselInner");
+                carouselInner.empty();
+                ad.photos.forEach((photo, index) => {
+                    const activeClass = index === 0 ? "active" : "";
+                    carouselInner.append(`
+                    <div class="carousel-item ${activeClass}">
+                        <img src="${photo}" class="d-block w-100" alt="Ad Photo">
+                    </div>
+                `);
+                });
+
+                // Show modal
+                const modalEl = document.getElementById('activeAdModal');
+                const modal = new bootstrap.Modal(modalEl);
+                modal.show();
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed to load ads details ! " + xhr.responseText,
+                    timeout: 3000
+                }).show();
+            }
+        })
+    }
 
 })
