@@ -12,5 +12,6 @@ public interface AdService {
     public Ad createAdWithPhotos(AdRequestDto dto, List<MultipartFile> photos) throws IOException;
     public List<Ad> getAllActiveAds();
     public UserActiveAdDto getUserActiveAds(Long adId);
+    public List<Ad> searchAds(String keyword, Long categoryId, String brand, String model, String location);
 
 }

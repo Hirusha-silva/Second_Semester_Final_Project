@@ -1,179 +1,160 @@
-/* General */
+/* ===================== General ===================== */
 body {
-    background: #f4f6f9;
-    font-family: 'Segoe UI', sans-serif;
-    color: #333;
     margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f7fa;
+    color: #1f2937;
 }
 
-/* Dashboard Layout */
+/* ===================== Wrapper ===================== */
 .dashboard-wrapper {
-    display: flex;
-    min-height: 100vh;
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Sidebar */
+/* ===================== Navigation Bar Compact & Right Button ===================== */
 .sidebar {
-    width: 250px;
-    background-color: #111827;
-    color: #e5e7eb;
-    padding: 30px 20px;
     display: flex;
-    flex-direction: column;
-    position: sticky;
-    top: 0;
+    justify-content: space-between; /* Brand left, button right */
+    align-items: center;
+    flex-wrap: nowrap;
+    background: #ffffff;
+    border-radius: 15px;
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
+
 .sidebar .brand {
     font-weight: 800;
-    font-size: 2rem;
-    text-align: center;
-    margin-bottom: 50px;
-    color: #fff;
+    font-size: 1.6rem;
+    color: #0ea5e9;
+    margin-right: 20px;
 }
+
+/* Navigation Links inline and compact */
 .sidebar .nav-link {
-    color: #cbd5e1 !important;
+    display: inline-block;
+    margin-right: 8px; /* Less space between links */
+    padding: 6px 10px;
+    border-radius: 10px;
+    text-decoration: none;
     font-weight: 600;
-    border-radius: 15px;
-    margin-bottom: 15px;
-    padding: 14px 20px;
-    transition: all 0.3s ease;
+    color: #1f2937;
+    transition: 0.3s;
 }
 .sidebar .nav-link.active,
 .sidebar .nav-link:hover {
-    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
-    color: #fff !important;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    background: #0ea5e9;
+    color: #fff;
 }
 
-/* Main Content */
-.main-content {
-    flex-grow: 1;
-    padding: 30px 40px;
+/* Post Ad button aligned right */
+#postAD {
+    margin-left: auto; /* Pushes button to the far right */
+    background: #0ea5e9;
+    color: #fff;
+    border-radius: 10px;
+    padding: 6px 12px;
+    font-weight: 700;
+    border: none;
+    transition: 0.3s;
+}
+#postAD:hover {
+    background: #0284c7;
 }
 
-/* Search Card */
+/* ===================== Search Section ===================== */
 .search-card {
     background: #fff;
-    border-radius: 25px;
-    padding: 30px;
-    box-shadow: 0 12px 25px rgba(0,0,0,0.08);
-    margin-bottom: 30px;
+    padding: 20px 25px;
+    border-radius: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
 }
+
 .search-card h2 {
-    font-weight: 800;
-    color: #0f172a;
-    font-size: 1.8rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
+
 .search-card input,
 .search-card select {
-    border-radius: 18px;
-    padding: 14px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    border-radius: 12px;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+    transition: 0.3s;
 }
 .search-card input:focus,
 .search-card select:focus {
     border-color: #0ea5e9;
-    box-shadow: 0 0 12px rgba(14,165,233,0.2);
+    box-shadow: 0 0 10px rgba(14,165,233,0.25);
 }
 .search-card button {
-    border-radius: 18px;
+    border-radius: 12px;
     font-weight: 700;
-    padding: 14px;
-    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
+    background: #0ea5e9;
     border: none;
-    transition: all 0.3s;
+    color: #fff;
+    transition: 0.3s;
 }
 .search-card button:hover {
-    background: linear-gradient(90deg, #0284c7, #0ea5e9);
-    transform: translateY(-2px);
+    background: #0284c7;
 }
 
-/* Ads Cards */
+/* ===================== Ads Cards ===================== */
 .ad-card {
     background: #fff;
-    border-radius: 20px;
+    border-radius: 15px;
     overflow: hidden;
-    transition: all 0.4s;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
-    margin-bottom: 25px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    position: relative;
 }
 .ad-card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 .ad-card img {
-    height: 220px;
     width: 100%;
+    height: 200px;
     object-fit: cover;
-    border-bottom: 1px solid #e5e7eb;
 }
 .ad-card .card-body {
-    position: relative;
-    padding: 20px 25px;
+    padding: 15px;
 }
+
+/* Favorite Button */
 .fav-btn {
     position: absolute;
-    top: 18px;
-    right: 18px;
+    top: 10px;
+    right: 10px;
     background: #fff;
-    border: none;
     border-radius: 50%;
-    padding: 10px 12px;
-    font-size: 1.4rem;
+    border: none;
+    font-size: 1.2rem;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: transform 0.3s;
 }
 .fav-btn.active {
     color: #ef4444;
     transform: scale(1.2);
 }
 
-/* Post Ad Modal */
-#postAdModal .modal-content {
-    border-radius: 25px;
-    overflow: hidden;
-    box-shadow: 0 12px 35px rgba(0,0,0,0.15);
-}
-#postAdModal .form-control,
-#postAdModal .form-select {
-    border-radius: 20px;
-    padding: 14px;
-    border: 1px solid #e2e8f0;
-    transition: all 0.3s;
-}
-#postAdModal .form-control:focus,
-#postAdModal .form-select:focus {
-    border-color: #0ea5e9;
-    box-shadow: 0 0 12px rgba(14,165,233,0.2);
-}
-#postAdModal label {
-    font-weight: 600;
-    color: #0f172a;
-}
-#postAdModal .btn-success {
-    border-radius: 20px;
-    font-weight: 700;
-    padding: 14px 30px;
-    background: linear-gradient(90deg, #0ea5e9, #3b82f6);
-    border: none;
-}
-#postAdModal .btn-success:hover {
-    transform: translateY(-2px);
-    background: linear-gradient(90deg, #0284c7, #0ea5e9);
-}
-
-/* Chat Messages */
-#messages {
-    background: #f1f5f9;
-    height: 400px;
+/* ===================== Chat ===================== */
+#messagesS {
+    background: #e5e7eb;
+    height: 360px;
+    border-radius: 12px;
     overflow-y: auto;
-    border-radius: 15px;
-    padding: 15px;
-    margin-bottom: 20px;
+    padding: 12px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 .chat-input {
     display: flex;
@@ -181,40 +162,65 @@ body {
 }
 .chat-input input {
     flex-grow: 1;
-    border-radius: 15px;
-    padding: 10px 15px;
+    border-radius: 12px;
+    padding: 10px;
     border: 1px solid #cbd5e1;
 }
 .chat-input button {
-    border-radius: 15px;
-    padding: 10px 20px;
+    border-radius: 12px;
     background: #0ea5e9;
     border: none;
     color: #fff;
     font-weight: 700;
+    padding: 10px 18px;
     transition: 0.3s;
 }
 .chat-input button:hover {
     background: #0284c7;
 }
 
-/* Active Ad Modal */
+/* ===================== Modals ===================== */
+#postAdModal .modal-content,
 #activeAdModal .modal-content {
     border-radius: 20px;
-    overflow: hidden;
 }
 
-#activeAdModal .modal-header {
-    border-bottom: none;
+#postAdModal .form-control,
+#postAdModal .form-select,
+#activeAdModal .form-control,
+#activeAdModal .form-select {
+    border-radius: 12px;
+    padding: 10px;
+    border: 1px solid #cbd5e1;
+}
+#postAdModal .form-control:focus,
+#postAdModal .form-select:focus,
+#activeAdModal .form-control:focus,
+#activeAdModal .form-select:focus {
+    border-color: #0ea5e9;
+    box-shadow: 0 0 10px rgba(14,165,233,0.25);
+}
+#postAdModal label,
+#activeAdModal label {
+    font-weight: 600;
+    color: #1f2937;
+}
+#postAdModal .btn-success,
+#activeAdModal .btn-success {
+    border-radius: 12px;
     font-weight: 700;
+    padding: 10px 18px;
+    background: #0ea5e9;
+    border: none;
+}
+#postAdModal .btn-success:hover,
+#activeAdModal .btn-success:hover {
+    background: #0284c7;
 }
 
+/* ===================== Active Ad Carousel ===================== */
 #activeAdModal .carousel-inner img {
     height: 300px;
     object-fit: cover;
     border-radius: 12px;
-}
-
-#activeAdModal p {
-    font-size: 0.95rem;
 }

@@ -27,16 +27,21 @@ $(document).ready(function (){
             },
             success: function (category) {
                 const $categories = $("#category");
+                const $category = $("#searchCategory")
+
                 $categories.empty().append('<option value="">Select Category</option>');
+                $category.empty().append('<option value="">Select Category</option>');
+
                 category.forEach(cat => {
                     $categories.append(`<option value="${cat.categoryId}">${cat.name}</option>`);
+                    $category.append(`<option value="${cat.categoryId}">${cat.name}</option>`);
                     console.log(cat.id,cat.name)
                 })
             }
         })
     }
 
-   // load models and brand
+    // load models and brand
     function loadBrandModels() {
         $.ajax({
             url: 'http://localhost:8080/api/ads/models',
@@ -77,7 +82,7 @@ $(document).ready(function (){
         });
     }
 
-   // open post ad
+    // open post ad
     $('#postAD').on('click', function() {
         e.preventDefault();
         console.log(userId);
@@ -93,7 +98,7 @@ $(document).ready(function (){
         }, { once: true });
     });
 
-   // post add
+    // post add
     $("#postAdData").on("click", function (e) {
 
         // Prepare DTO
@@ -183,7 +188,7 @@ $(document).ready(function (){
         openActivePopup(adId);
     });
 
- //open active ads popup window
+    //open active ads popup window
     function openActivePopup(adId){
         $.ajax({
             url:`http://localhost:8080/api/ads/active/${adId}`,
@@ -230,4 +235,42 @@ $(document).ready(function (){
         })
     }
 
+
+    //search ads
+    $("#searchForm").on("submit", function(e) {
+        e.preventDefault();
+
+        let keyword = $("#searchKeyword").val();
+        let categoryId = $("#searchCategory").val();
+        let brand = $("#searchBrand").val();
+        let modelId = $("#searchModel").val();
+        let location = $("#searchLocation").val();
+
+        $.ajax({
+            url: "http://localhost:8080/api/ads/search",
+            method: "GET",
+            headers: { Authorization: "Bearer " + token },
+            data: { keyword, categoryId, brand, modelId, location },
+            success: function (ads) {
+                const container = $("#adsContainer");
+                container.empty();
+                ads.forEach(ad => {
+                    const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+                    container.append(`
+                    <div class="col-md-4">
+                        <div class="ad-card card">
+                            <img src="${firstPhoto}" class="card-img-top" alt="${ad.title}">
+                            <div class="card-body">
+                                <h5>${ad.title}</h5>
+                                <p>Price: Rs. ${ad.price}</p>
+                                <p>Location: ${ad.location}</p>
+                                <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                });
+            }
+        });
+    });
 })

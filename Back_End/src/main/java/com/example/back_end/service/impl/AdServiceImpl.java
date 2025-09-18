@@ -105,4 +105,15 @@ public class AdServiceImpl implements AdService {
                         .collect(Collectors.toList())
         );
     }
+
+    @Override
+    public List<Ad> searchAds(String keyword, Long categoryId, String brand, String model, String location) {
+        return adRepo.searchAds(
+                keyword != null && !keyword.isEmpty() ? keyword : null,
+                categoryId,
+                brand != null && !brand.isEmpty() ? brand : null,
+                model != null && !model.isEmpty() ? model : null,
+                location != null && !location.isEmpty() ? location : null
+        );
+    }
 }

@@ -79,4 +79,30 @@ public class AdController {
         UserActiveAdDto dto = adService.getUserActiveAds(adId);
         return ResponseEntity.ok(dto);
     }
+
+
+    @GetMapping("/search")
+    public List<AdDto> searchAds(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String model,
+            @RequestParam(required = false) String location
+    ) {
+        List<Ad> ads = adService.searchAds(keyword, categoryId, brand, model, location);
+
+        return ads.stream().map(ad -> AdDto.builder()
+                .adId(ad.getAdId())
+                .title(ad.getTitle())
+                .description(ad.getDescription())
+                .price(ad.getPrice())
+                .location(ad.getLocation())
+                .categoryName(ad.getCategory() != null ? ad.getCategory().getName() : "")
+                .brand(ad.getVehicleModel() != null ? ad.getVehicleModel().getBrand() : "")
+                .model(ad.getVehicleModel() != null ? ad.getVehicleModel().getModel() : "")
+                .photoUrls(ad.getPhotos().stream().map(p -> p.getPhotoUrl()).toList())
+                .build()
+        ).toList();
+    }
+
 }
