@@ -2,6 +2,7 @@ package com.example.back_end.service.impl;
 
 import com.example.back_end.dto.AdRequestDto;
 import com.example.back_end.dto.UserActiveAdDto;
+import com.example.back_end.dto.UserAdDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.AdPhoto;
 import com.example.back_end.entity.AdStatus;
@@ -115,5 +116,24 @@ public class AdServiceImpl implements AdService {
                 model != null && !model.isEmpty() ? model : null,
                 location != null && !location.isEmpty() ? location : null
         );
+    }
+
+    @Override
+    public List<UserAdDto> getUserAds(Long userId) {
+        List<Ad> ads = adRepo.findByUserId(userId);
+
+        return ads.stream().map(ad -> new UserAdDto(
+                ad.getAdId(),
+                ad.getTitle(),
+                ad.getDescription(),
+                ad.getLocation(),
+                ad.getPrice(),
+                ad.getStatus(),
+                ad.getCategory().getName(),
+                ad.getVehicleModel().getBrand(),
+                ad.getVehicleModel().getModel(),
+                ad.getPhotos().stream().map(AdPhoto::getPhotoUrl).collect(Collectors.toList())
+        )).collect(Collectors.toList());
+
     }
 }

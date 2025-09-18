@@ -13,13 +13,6 @@ import java.util.List;
 
 @Repository
 public interface AdRepo extends JpaRepository<Ad, Long> {
-    List<Ad> findByCategory_CategoryId(Long categoryId);
-
-    // Example: search by title (contains keyword)
-    List<Ad> findByTitleContainingIgnoreCase(String keyword);
-
-    // Example: find ads by user (seller)
-    List<Ad> findByUser_UserId(Long userId);
 
     @Query("SELECT new com.example.back_end.dto.PendingAdDto(a.adId, a.title, a.description, a.location, a.price, a.status, a.user.username) " +
             "FROM Ad a WHERE a.status = 'PENDING'")
@@ -35,4 +28,6 @@ public interface AdRepo extends JpaRepository<Ad, Long> {
     @Query("SELECT a FROM Ad a WHERE a.status = 'ACTIVE' AND (:keyword IS NULL OR LOWER(a.title) LIKE LOWER(CONCAT('%', :keyword, '%')) OR LOWER(a.description) LIKE LOWER(CONCAT('%', :keyword, '%'))) AND (:categoryId IS NULL OR a.category.categoryId = :categoryId) AND (:brand IS NULL OR LOWER(a.vehicleModel.brand) = LOWER(:brand)) AND (:model IS NULL OR a.vehicleModel.model = :model) AND (:location IS NULL OR LOWER(a.location) LIKE LOWER(CONCAT('%', :location, '%')))")
     List<Ad> searchAds(@Param("keyword") String keyword, @Param("categoryId") Long categoryId, @Param("brand") String brand, @Param("model") String model, @Param("location") String location);
 
+    @Query("SELECT a FROM Ad a WHERE a.user.userId = :userId")
+    List<Ad> findByUserId(@Param("userId") Long userId);
 }

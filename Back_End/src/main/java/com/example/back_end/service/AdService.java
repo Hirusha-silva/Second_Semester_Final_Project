@@ -2,6 +2,7 @@ package com.example.back_end.service;
 
 import com.example.back_end.dto.AdRequestDto;
 import com.example.back_end.dto.UserActiveAdDto;
+import com.example.back_end.dto.UserAdDto;
 import com.example.back_end.entity.Ad;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,5 +14,6 @@ public interface AdService {
     public List<Ad> getAllActiveAds();
     public UserActiveAdDto getUserActiveAds(Long adId);
     public List<Ad> searchAds(String keyword, Long categoryId, String brand, String model, String location);
+    List<UserAdDto> getUserAds(Long userId);
 
 }

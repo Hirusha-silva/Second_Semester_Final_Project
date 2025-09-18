@@ -271,7 +271,9 @@ $(document).ready(function (){
             url: "http://localhost:8080/api/ads/search",
             method: "GET",
             headers: { Authorization: "Bearer " + token },
-            data: { keyword, categoryId, brand, modelId, location },
+            data: {
+                keyword, categoryId, brand, modelId, location
+            },
             success: function (ads) {
                 const container = $("#adsContainer");
                 container.empty();

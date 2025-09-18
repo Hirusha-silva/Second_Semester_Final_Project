@@ -3,6 +3,7 @@ package com.example.back_end.controller;
 import com.example.back_end.dto.AdDto;
 import com.example.back_end.dto.AdRequestDto;
 import com.example.back_end.dto.UserActiveAdDto;
+import com.example.back_end.dto.UserAdDto;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.Category;
 import com.example.back_end.entity.VehicleModel;
@@ -56,6 +57,7 @@ public class AdController {
         return vehicalModelService.getAllVehicalModels();
     }
 
+    //get all active ads
     @GetMapping("/active")
     public List<AdDto> getAllActiveAds() {
         List<Ad> ads = adService.getAllActiveAds();
@@ -74,6 +76,7 @@ public class AdController {
         ).collect(Collectors.toList());
     }
 
+    //get active ads details
     @GetMapping("/active/{adId}")
     public ResponseEntity<UserActiveAdDto> getActiveAdDetails(@PathVariable Long adId) {
         UserActiveAdDto dto = adService.getUserActiveAds(adId);
@@ -81,6 +84,7 @@ public class AdController {
     }
 
 
+    //search
     @GetMapping("/search")
     public List<AdDto> searchAds(
             @RequestParam(required = false) String keyword,
@@ -103,6 +107,11 @@ public class AdController {
                 .photoUrls(ad.getPhotos().stream().map(p -> p.getPhotoUrl()).toList())
                 .build()
         ).toList();
+    }
+
+    @GetMapping("/my-ads/{userId}")
+    public ResponseEntity<List<UserAdDto>> getUserAds(@PathVariable Long userId) {
+        return ResponseEntity.ok(adService.getUserAds(userId));
     }
 
 }
