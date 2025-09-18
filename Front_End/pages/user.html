@@ -15,7 +15,13 @@
     <div class="sidebar">
         <div class="brand">SpareWay</div>
         <a class="nav-link active" data-bs-toggle="tab" href="#allAds">All Ads</a>
-        <a class="nav-link" data-bs-toggle="tab" href="#myAds">My Ads</a>
+<!--        <a class="nav-link" data-bs-toggle="tab"  data-bs-target="#myAds">My Ads</a>-->
+<!--        <button class="nav-link" id="myAdsTab" data-bs-toggle="tab" data-bs-target="#myAds" type="button">-->
+<!--            My Ads-->
+<!--        </button>-->
+        <a href="myads.html">My Ads</a>
+
+
         <a class="nav-link" data-bs-toggle="tab" href="#favAds">Favorites ❤️</a>
         <button class="btn btn-success mt-auto" id="postAD" data-bs-toggle="modal" data-bs-target="#postAdModal">+ Post Ad</button>
     </div>
@@ -56,9 +62,9 @@
             <div class="tab-pane fade show active" id="allAds">
                 <div class="row" id="adsContainer"></div>
             </div>
-            <div class="tab-pane fade" id="myAds">
-                <div class="row" id="myAdsContainer"></div>
-            </div>
+<!--            <div class="tab-pane fade" id="myAds">-->
+<!--                <div class="row" id="myAdsContainer"></div>-->
+<!--            </div>-->
             <div class="tab-pane fade" id="favAds">
                 <div class="row" id="favAdsContainer"></div>
             </div>
@@ -173,12 +179,44 @@
     </div>
 </div>
 
+<!-- Edit Modal -->
+<div class="modal fade" id="editAdModal" tabindex="-1" aria-labelledby="editAdLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editAdLabel">Edit Ad</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editAdForm">
+                    <input type="hidden" id="editAdId">
+                    <div class="mb-3">
+                        <label for="editTitle" class="form-label">Title</label>
+                        <input type="text" class="form-control" id="editTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDescription" class="form-label">Description</label>
+                        <textarea class="form-control" id="editDescription" rows="3" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPrice" class="form-label">Price</label>
+                        <input type="number" class="form-control" id="editPrice" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editLocation" class="form-label">Location</label>
+                        <input type="text" class="form-control" id="editLocation" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/noty/lib/noty.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
 <script src="../js/user.js"></script>
 </body>
 </html>

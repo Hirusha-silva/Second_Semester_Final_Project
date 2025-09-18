@@ -296,4 +296,64 @@ $(document).ready(function (){
             }
         });
     });
+
+    // function loadMyAds() {
+    //     $.ajax({
+    //         url: `http://localhost:8080/api/ads/my-ads/${userId}`, // user-specific ads
+    //         method: "GET",
+    //         headers: {
+    //             Authorization: "Bearer " + token
+    //         },
+    //         success: function (ads) {
+    //
+    //             console.log("My Ads response:", ads);
+    //             let html = "";
+    //             if (ads.length === 0) {
+    //                 html = `<p class="text-center mt-3">No ads found</p>`;
+    //             } else {
+    //                 ads.forEach(ad => {
+    //                     html += `
+    //                     <div class="col-md-4">
+    //                         <div class="ad-card position-relative">
+    //                             <img src="${ad.photos[0] ? ad.photos[0] : '/images/default.png'}" alt="${ad.title}">
+    //                             <div class="card-body">
+    //                                 <h5>${ad.title}</h5>
+    //                                 <p>Rs. ${ad.price}</p>
+    //                                 <p>${ad.location}</p>
+    //                                 <div class="d-flex justify-content-between mt-2">
+    //                                     <button class="btn btn-primary btn-sm view-btn" data-id="${ad.adId}">View</button>
+    //                                     <div>
+    //                                         <button class="btn btn-warning btn-sm edit-btn" data-id="${ad.adId}">Edit</button>
+    //                                         <button class="btn btn-danger btn-sm delete-btn" data-id="${ad.adId}">Delete</button>
+    //                                     </div>
+    //                                 </div>
+    //                             </div>
+    //                         </div>
+    //                     </div>`;
+    //                 });
+    //             }
+    //             $("#myAdsContainer").html(html);
+    //         },
+    //         error: function (err) {
+    //             console.error(err);
+    //             alert("Failed to load ads");
+    //         }
+    //     });
+    // }
+    //
+    // // $('a[data-bs-target="#myAds"]').on('shown.bs.tab', function (e) {
+    // //     console.log("My Ads Tab opened ✅");
+    // //     loadMyAds();
+    // // });
+    //
+    // // Pure JS or jQuery binding
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const myAdsTab = document.getElementById("myAdsTab");
+    //
+    //     myAdsTab.addEventListener("shown.bs.tab", function () {
+    //         console.log("My Ads Tab opened ✅");
+    //         loadMyAds();
+    //     });
+    // });
+
 })

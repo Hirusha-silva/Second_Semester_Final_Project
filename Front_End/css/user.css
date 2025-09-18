@@ -13,56 +13,60 @@ body {
     padding: 20px;
 }
 
-/* ===================== Navigation Bar Compact & Right Button ===================== */
+/* ===================== Navigation Bar ===================== */
 .sidebar {
     display: flex;
-    justify-content: space-between; /* Brand left, button right */
     align-items: center;
-    flex-wrap: nowrap;
-    background: #ffffff;
-    border-radius: 15px;
-    padding: 8px 15px;
+    justify-content: space-between; /* Brand left, button right */
+    background: linear-gradient(90deg, #0ea5e9, #0284c7);
+    padding: 12px 25px;
+    border-radius: 12px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
 }
 
+/* Brand */
 .sidebar .brand {
     font-weight: 800;
-    font-size: 1.6rem;
-    color: #0ea5e9;
+    font-size: 1.8rem;
+    color: #fff;
     margin-right: 20px;
 }
 
-/* Navigation Links inline and compact */
-.sidebar .nav-link {
+/* Navigation Links */
+.sidebar .nav-link,
+.sidebar a {
     display: inline-block;
-    margin-right: 8px; /* Less space between links */
-    padding: 6px 10px;
-    border-radius: 10px;
-    text-decoration: none;
+    margin-right: 12px;
+    padding: 8px 14px;
+    border-radius: 8px;
     font-weight: 600;
-    color: #1f2937;
+    color: #ffffffcc;
+    text-decoration: none;
     transition: 0.3s;
 }
-.sidebar .nav-link.active,
-.sidebar .nav-link:hover {
-    background: #0ea5e9;
+
+.sidebar .nav-link:hover,
+.sidebar a:hover,
+.sidebar .nav-link.active {
+    background: rgba(255, 255, 255, 0.15);
     color: #fff;
 }
 
-/* Post Ad button aligned right */
+/* Post Ad Button */
 #postAD {
-    margin-left: auto; /* Pushes button to the far right */
-    background: #0ea5e9;
-    color: #fff;
-    border-radius: 10px;
-    padding: 6px 12px;
+    margin-left: auto;
+    background: #ffffff;
+    color: #0ea5e9;
+    border-radius: 8px;
+    padding: 8px 14px;
     font-weight: 700;
     border: none;
     transition: 0.3s;
 }
 #postAD:hover {
-    background: #0284c7;
+    background: #f1f5f9;
+    color: #0284c7;
 }
 
 /* ===================== Search Section ===================== */
@@ -90,7 +94,7 @@ body {
 .search-card input:focus,
 .search-card select:focus {
     border-color: #0ea5e9;
-    box-shadow: 0 0 10px rgba(14,165,233,0.25);
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.25);
 }
 .search-card button {
     border-radius: 12px;
@@ -198,7 +202,7 @@ body {
 #activeAdModal .form-control:focus,
 #activeAdModal .form-select:focus {
     border-color: #0ea5e9;
-    box-shadow: 0 0 10px rgba(14,165,233,0.25);
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.25);
 }
 #postAdModal label,
 #activeAdModal label {
