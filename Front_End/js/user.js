@@ -53,14 +53,23 @@ $(document).ready(function (){
                 const $brand = $("#brand");
                 const $model = $("#model");
 
+                const $sBrand = $("#searchBrand");
+                const $sModels = $("#searchModel");
+
 
                 $brand.empty().append('<option value="">Select Brand</option>');
                 $model.empty().append('<option value="">Select Model</option>');
+
+                $sBrand.empty().append('<option value="">Select Brand</option>');
+                $sModels.empty().append('<option value="">Select Model</option>');
+
 
                 const brands = [...new Set(bms.map(bm => bm.brand))];
 
                 brands.forEach(brand => {
                     $brand.append(`<option value="${brand}">${brand}</option>`);
+                    $sBrand.append(`<option value="${brand}">${brand}</option>`);
+
                 });
 
 
@@ -72,6 +81,18 @@ $(document).ready(function (){
                     console.log(models);
                     models.forEach(m => {
                         $model.append(`<option value="${m.modelId}">${m.model}</option>`);
+
+                    });
+                });
+
+                $sBrand.on("change",function (){
+                    const selectedBrand = $(this).val();
+                    $sModels.empty().append('<option value="">Select Model</option>');
+
+                    const models = bms.filter(bm => bm.brand === selectedBrand);
+                    console.log(models);
+                    models.forEach(m => {
+                        $sModels.append(`<option value="${m.modelId}">${m.model}</option>`);
 
                     });
                 });
