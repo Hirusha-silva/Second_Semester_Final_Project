@@ -1,6 +1,7 @@
 package com.example.back_end.service.impl;
 
 import com.example.back_end.dto.AdRequestDto;
+import com.example.back_end.dto.AdUpdateDto;
 import com.example.back_end.dto.UserActiveAdDto;
 import com.example.back_end.dto.UserAdDto;
 import com.example.back_end.entity.Ad;
@@ -9,6 +10,7 @@ import com.example.back_end.entity.AdStatus;
 import com.example.back_end.repo.*;
 import com.example.back_end.service.AdService;
 import com.example.back_end.util.FileUploadUtil;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -134,6 +136,70 @@ public class AdServiceImpl implements AdService {
                 ad.getVehicleModel().getModel(),
                 ad.getPhotos().stream().map(AdPhoto::getPhotoUrl).collect(Collectors.toList())
         )).collect(Collectors.toList());
-
     }
+
+    @Transactional
+    @Override
+    public Ad updateAdWithPhotos(Long adId, AdUpdateDto dto, List<MultipartFile> newPhotos) {
+        Ad ad = adRepo.findById(adId)
+                .orElseThrow(() -> new RuntimeException("Ad not found: " + adId));
+
+        ad.setTitle(dto.getTitle());
+        ad.setDescription(dto.getDescription());
+        ad.setPrice(dto.getPrice());
+        ad.setLocation(dto.getLocation());
+        ad.setStatus(AdStatus.PENDING);
+
+        ad.setCategory(categoryRepo.findById(dto.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Category not found")));
+        ad.setVehicleModel(vehicleModelRepo.findById(dto.getModelId())
+                .orElseThrow(() -> new RuntimeException("Vehicle model not found")));
+
+        try {
+            // Delete old photos
+            List<AdPhoto> oldPhotos = adRepo.findPhotosByAdId(adId);
+            for (AdPhoto old : oldPhotos) {
+                String filePath = System.getProperty("user.dir") + old.getPhotoUrl();
+                File file = new File(filePath);
+                if (file.exists()) file.delete();
+                adPhotoRepo.delete(old);
+            }
+
+            // Save new photos
+            if (newPhotos != null && !newPhotos.isEmpty()) {
+                String uploadDir = System.getProperty("user.dir") + "/uploads/";
+                File uploadFolder = new File(uploadDir);
+                if (!uploadFolder.exists()) uploadFolder.mkdirs();
+
+                for (MultipartFile file : newPhotos) {
+                    String fileName = file.getOriginalFilename();
+                    if (fileName == null || fileName.isEmpty()) continue;
+
+                    String filePath = uploadDir + fileName;
+                    File destFile = new File(filePath);
+                    file.transferTo(destFile);
+
+                    AdPhoto adPhoto = new AdPhoto();
+                    adPhoto.setPhotoUrl("/uploads/" + fileName);
+                    adPhoto.setAd(ad);
+
+                    adPhotoRepo.save(adPhoto);
+                }
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // throw new RuntimeException("Failed to save photos"); // optional, comment out to avoid 500
+        }
+
+        return adRepo.save(ad);
+    }
+
+
+
+    public Ad getAdById(Long adId) {
+        return adRepo.findById(adId)
+                .orElseThrow(() -> new RuntimeException("Ad not found"));
+    }
+
 }

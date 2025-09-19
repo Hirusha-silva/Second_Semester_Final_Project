@@ -1,6 +1,7 @@
 package com.example.back_end.service;
 
 import com.example.back_end.dto.AdRequestDto;
+import com.example.back_end.dto.AdUpdateDto;
 import com.example.back_end.dto.UserActiveAdDto;
 import com.example.back_end.dto.UserAdDto;
 import com.example.back_end.entity.Ad;
@@ -15,5 +16,6 @@ public interface AdService {
     public UserActiveAdDto getUserActiveAds(Long adId);
     public List<Ad> searchAds(String keyword, Long categoryId, String brand, String model, String location);
     List<UserAdDto> getUserAds(Long userId);
+    public Ad updateAdWithPhotos(Long adId, AdUpdateDto dto, List<MultipartFile> newPhotos) throws IOException;
 
 }

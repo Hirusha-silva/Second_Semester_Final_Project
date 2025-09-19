@@ -1,21 +1,20 @@
 package com.example.back_end.controller;
 
-import com.example.back_end.dto.AdDto;
-import com.example.back_end.dto.AdRequestDto;
-import com.example.back_end.dto.UserActiveAdDto;
-import com.example.back_end.dto.UserAdDto;
+import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.Category;
 import com.example.back_end.entity.VehicleModel;
 import com.example.back_end.service.AdService;
 import com.example.back_end.service.CategoryService;
 import com.example.back_end.service.VehicalModelService;
+import com.example.back_end.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +26,7 @@ public class AdController {
     private final AdService adService;
     private final CategoryService categoryService;
     private final VehicalModelService vehicalModelService;
+    private final JwtUtil jwtUtil;
 
 
     // Create Ad with Photos
@@ -113,5 +113,32 @@ public class AdController {
     public ResponseEntity<List<UserAdDto>> getUserAds(@PathVariable Long userId) {
         return ResponseEntity.ok(adService.getUserAds(userId));
     }
+
+//    @PutMapping(value = "/edit/{adId}", consumes = {"multipart/form-data"})
+//    public ResponseEntity<Ad> editAd(
+//            @PathVariable Long adId,
+//            @RequestPart("ad") String adJson,
+//            @RequestPart(value = "photos", required = false) List<MultipartFile> photos
+//    ) throws IOException {
+//
+//        ObjectMapper mapper = new ObjectMapper();
+//        AdUpdateDto dto = mapper.readValue(adJson, AdUpdateDto.class);
+//
+//        Ad updatedAd = adService.updateAdWithPhotos(adId, dto, photos);
+//        return ResponseEntity.ok(updatedAd);
+//    }
+
+    @PostMapping(value = "/edit/{adId}", consumes = {"multipart/form-data"})
+    public ResponseEntity<Ad> editAd(
+            @PathVariable Long adId,
+            @RequestPart("ad") String adJson,
+            @RequestPart(value = "photos", required = false) List<MultipartFile> photos
+    ) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        AdUpdateDto dto = mapper.readValue(adJson, AdUpdateDto.class);
+        Ad updatedAd = adService.updateAdWithPhotos(adId, dto, photos);
+        return ResponseEntity.ok(updatedAd);
+    }
+
 
 }

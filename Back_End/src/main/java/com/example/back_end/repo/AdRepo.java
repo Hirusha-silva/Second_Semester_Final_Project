@@ -3,6 +3,7 @@ package com.example.back_end.repo;
 import com.example.back_end.dto.ActiveAdDto;
 import com.example.back_end.dto.PendingAdDto;
 import com.example.back_end.entity.Ad;
+import com.example.back_end.entity.AdPhoto;
 import com.example.back_end.entity.AdStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -30,4 +31,9 @@ public interface AdRepo extends JpaRepository<Ad, Long> {
 
     @Query("SELECT a FROM Ad a WHERE a.user.userId = :userId")
     List<Ad> findByUserId(@Param("userId") Long userId);
+
+    List<Ad> findByUserUserId(Long userId);
+
+    @Query("SELECT a.photos FROM Ad a WHERE a.adId = :adId")
+    List<AdPhoto> findPhotosByAdId(@Param("adId") Long adId);
 }
