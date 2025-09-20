@@ -116,7 +116,12 @@ $(document).ready(function () {
             contentType: 'application/json',
             data:JSON.stringify(data),
             success:function (response){
-                alert('Success');
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Register Successfully!",
+                    timeout: 2000
+                }).show();
                 document.getElementById("goToLogin").click();
             },
             error: function (xhr) {
