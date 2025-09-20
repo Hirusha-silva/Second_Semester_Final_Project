@@ -14,8 +14,8 @@ $(document).ready(function () {
     $("#registerBtn").on('click',function (e){
         e.preventDefault();
 
-        const nameu = $('#regName').val();
-        const emailu = $('#regEmail').val();
+        const nameu = $('#regName').val().trim();
+        const emailu = $('#regEmail').val().;
         const usernameu = $('#regUsername').val();
         const addressu = $('#regAddress').val();
         const phoneu = $('#regNumber').val();

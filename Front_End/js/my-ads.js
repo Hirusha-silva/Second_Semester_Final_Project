@@ -27,7 +27,6 @@ $(document).ready(function () {
                                         <p>Rs. ${ad.price}</p>
                                         <p>${ad.location}</p>
                                         <div class="d-flex justify-content-end gap-2">
-                                            <button class="btn btn-warning btn-sm edit-btn" data-id="${ad.adId}">Edit</button>
                                             <button class="btn btn-danger btn-sm delete-btn" data-id="${ad.adId}">Delete</button>
                                             <button class="btn btn-primary view-ads" data-id="${ad.adId}">View</button>
                                         </div>
@@ -167,33 +166,33 @@ $(document).ready(function () {
         });
     });
 
-    // // Delete ad
-    // $(document).on("click", ".delete-btn", function () {
-    //     const adId = $(this).data("id");
-    //     if (!confirm("Are you sure you want to delete this ad?")) return;
-    //
-    //     $.ajax({
-    //         url: `http://localhost:8080/api/ads/delete/${adId}`,
-    //         method: "DELETE",
-    //         headers: { Authorization: "Bearer " + token },
-    //         success: function () {
-    //             new Noty({
-    //                 type: "success",
-    //                 layout: "topRight",
-    //                 text: "Ad deleted successfully!",
-    //                 timeout: 3000
-    //             }).show();
-    //             loadMyAds();
-    //         },
-    //         error: function (xhr) {
-    //             new Noty({
-    //                 type: "error",
-    //                 layout: "topRight",
-    //                 text: "Failed to delete ad! " + xhr.responseText,
-    //                 timeout: 3000
-    //             }).show();
-    //         }
-    //     });
-    // });
+    // Delete ad
+    $(document).on("click", ".delete-btn", function () {
+        const adId = $(this).data("id");
+        if (!confirm("Are you sure you want to delete this ad?")) return;
+
+        $.ajax({
+            url: `http://localhost:8080/api/ads/delete/${adId}`,
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token },
+            success: function () {
+                new Noty({
+                    type: "success",
+                    layout: "topRight",
+                    text: "Ad deleted successfully!",
+                    timeout: 3000
+                }).show();
+                loadMyAds();
+            },
+            error: function (xhr) {
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Failed to delete ad! " + xhr.responseText,
+                    timeout: 3000
+                }).show();
+            }
+        });
+    });
 
 });
