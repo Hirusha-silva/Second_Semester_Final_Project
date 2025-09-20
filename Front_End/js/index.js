@@ -15,13 +15,79 @@ $(document).ready(function () {
         e.preventDefault();
 
         const nameu = $('#regName').val().trim();
-        const emailu = $('#regEmail').val().;
-        const usernameu = $('#regUsername').val();
-        const addressu = $('#regAddress').val();
-        const phoneu = $('#regNumber').val();
+        const emailu = $('#regEmail').val().trim();
+        const usernameu = $('#regUsername').val().trim();
+        const addressu = $('#regAddress').val().trim();
+        const phoneu = $('#regNumber').val().trim();
         const passwordu = $('#regPassword').val();
         const confirmPasswordu = $('#regConfirmPassword').val();
         const roleu = "USER";
+
+
+        //validation
+        if (nameu.length < 3) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Name should be at least 3 characters.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailPattern.test(emailu)) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Invalid email format.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+        if (usernameu.length < 3) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Username should be at least 3 characters.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+        if (addressu.length < 5) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Address is too short.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+        const phonePattern = /^[0-9]{10}$/;
+        if (!phonePattern.test(phoneu)) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Phone number should be 10 digits.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+        if (passwordu.length < 6) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Password should be at least 6 characters.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
+
 
 
         if (passwordu !== confirmPasswordu ){
