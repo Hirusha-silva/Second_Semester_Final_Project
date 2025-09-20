@@ -109,6 +109,7 @@ public class AdController {
         ).toList();
     }
 
+    //load user ads
     @GetMapping("/my-ads/{userId}")
     public ResponseEntity<List<UserAdDto>> getUserAds(@PathVariable Long userId) {
         return ResponseEntity.ok(adService.getUserAds(userId));
@@ -128,6 +129,7 @@ public class AdController {
 //        return ResponseEntity.ok(updatedAd);
 //    }
 
+    //update user ads
     @PostMapping(value = "/edit/{adId}", consumes = {"multipart/form-data"})
     public ResponseEntity<Ad> editAd(
             @PathVariable Long adId,
@@ -140,5 +142,11 @@ public class AdController {
         return ResponseEntity.ok(updatedAd);
     }
 
+    //delete ad
+    @DeleteMapping("/delete/{adId}")
+    public ResponseEntity<ApiResponseDto> deleteAd(@PathVariable Long adId) {
+        adService.deleteAd(adId);
+        return ResponseEntity.ok(new ApiResponseDto(200,"Ad Delete !",adId));
+    }
 
 }

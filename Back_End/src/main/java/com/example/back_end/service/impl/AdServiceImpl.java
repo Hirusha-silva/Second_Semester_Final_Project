@@ -30,6 +30,8 @@ public class AdServiceImpl implements AdService {
     private final CategoryRepo categoryRepo;
     private final VehicleModelRepo vehicleModelRepo;
 
+
+   // post ad
     @Override
     public Ad createAdWithPhotos(AdRequestDto dto, List<MultipartFile> photos) throws IOException {
         Ad ad = new Ad();
@@ -81,11 +83,13 @@ public class AdServiceImpl implements AdService {
         return savedAd;
     }
 
+    //load active ads
     @Override
     public List<Ad> getAllActiveAds() {
         return adRepo.findByStatus(AdStatus.ACTIVE);
     }
 
+    //load user active ads details
     @Override
     public  UserActiveAdDto getUserActiveAds(Long adId) {
         Ad ad = adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found"+adId));
@@ -109,6 +113,7 @@ public class AdServiceImpl implements AdService {
         );
     }
 
+    //search
     @Override
     public List<Ad> searchAds(String keyword, Long categoryId, String brand, String model, String location) {
         return adRepo.searchAds(
@@ -120,6 +125,7 @@ public class AdServiceImpl implements AdService {
         );
     }
 
+    //get user ads
     @Override
     public List<UserAdDto> getUserAds(Long userId) {
         List<Ad> ads = adRepo.findByUserId(userId);
@@ -138,6 +144,8 @@ public class AdServiceImpl implements AdService {
         )).collect(Collectors.toList());
     }
 
+
+    //update user ads
     @Transactional
     @Override
     public Ad updateAdWithPhotos(Long adId, AdUpdateDto dto, List<MultipartFile> newPhotos) {
@@ -195,6 +203,21 @@ public class AdServiceImpl implements AdService {
         return adRepo.save(ad);
     }
 
+    //delete user ads
+    @Transactional
+    @Override
+    public void deleteAd(Long adId) {
+        Ad ad = adRepo.findById(adId).orElseThrow(() -> new RuntimeException("Ad not found: " + adId));
+
+        // Delete attached photos
+        for (AdPhoto photo : ad.getPhotos()) {
+            String filePath = System.getProperty("user.dir") + photo.getPhotoUrl();
+            File file = new File(filePath);
+            if (file.exists()) file.delete();
+        }
+
+        adRepo.delete(ad);
+    }
 
 
     public Ad getAdById(Long adId) {
