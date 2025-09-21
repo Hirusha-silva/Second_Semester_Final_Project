@@ -109,4 +109,13 @@ public class AdminController {
             return ResponseEntity.ok(new ApiResponseDto(500,"Mail Failed",e.getMessage()));
         }
     }
+
+    //status card
+    @GetMapping("/status-cards")
+    public ResponseEntity<ApiResponseDto> getStatusCards() {
+        StatusCardDto statusCardDto = adminService.getStatusCards();
+        return ResponseEntity.ok(
+                new ApiResponseDto(200, "Status cards loaded", statusCardDto)
+        );
+    }
 }

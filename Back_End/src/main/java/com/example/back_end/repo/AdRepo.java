@@ -36,4 +36,6 @@ public interface AdRepo extends JpaRepository<Ad, Long> {
 
     @Query("SELECT a.photos FROM Ad a WHERE a.adId = :adId")
     List<AdPhoto> findPhotosByAdId(@Param("adId") Long adId);
+
+    long countByStatus(AdStatus status);
 }

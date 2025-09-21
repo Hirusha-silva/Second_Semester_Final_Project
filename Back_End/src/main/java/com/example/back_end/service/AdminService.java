@@ -12,6 +12,7 @@ public interface AdminService {
     List<ActiveAdDto> getAllActiveAds();
     public void activeDeleteAd(Long adId);
     public ActiveAdDetailDto getActiveAdDetails(Long adId);
+    StatusCardDto getStatusCards();
 
   //  UserSummaryDto getUserSummaryById(Long id);
 }

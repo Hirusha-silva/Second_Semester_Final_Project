@@ -98,6 +98,17 @@ public class AdminServiceImpl implements AdminService {
         );
     }
 
+    //status card
+    @Override
+    public StatusCardDto getStatusCards() {
+        long totalUsers = userRepo.count();
+        long totalAds = adRepo.count();
+        long totalPendingAds = adRepo.countByStatus(AdStatus.PENDING);
+        long totalActiveAds = adRepo.countByStatus(AdStatus.ACTIVE);
+
+        return new StatusCardDto(totalUsers, totalAds, totalPendingAds, totalActiveAds);
+    }
+
 //    @Override
 //    public UserSummaryDto getUserSummaryById(Long id) {
 //       return userRepo.findUserSummaryById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
