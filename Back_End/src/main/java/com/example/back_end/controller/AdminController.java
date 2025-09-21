@@ -47,12 +47,40 @@ public class AdminController {
     public ResponseEntity<?> activateAd(@PathVariable Long adId) {
         Ad ad = adminServiceImpl.activateAd(adId);
 
-        // Send email
-        emailService.sendEmail(
-                ad.getUser().getEmail(),
-                "Your Ad is Published",
-                "Hello " + ad.getUser().getUsername() + ", your ad '" + ad.getTitle() + "' is now ACTIVE!"
-        );
+        String htmlBody = "<!DOCTYPE html>" +
+                "<html>" +
+                "<head>" +
+                "<style>" +
+                "  body { font-family: Arial, sans-serif; background-color: #f0f4f8; margin:0; padding:0; }" +
+                "  .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); overflow: hidden; }" +
+                "  .header { background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; padding: 30px; text-align: center; font-size: 1.5rem; font-weight: bold; }" +
+                "  .content { padding: 30px; color: #1e293b; line-height: 1.6; }" +
+                "  .btn { display: inline-block; margin-top: 20px; padding: 12px 25px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: #fff; text-decoration: none; border-radius: 12px; font-weight: bold; }" +
+                "</style>" +
+                "</head>" +
+                "<body>" +
+                "  <div class='container'>" +
+                "    <div class='header'>Your Ad is Now Live!</div>" +
+                "    <div class='content'>" +
+                "      <p>Hello " + ad.getUser().getName() + ",</p>" +
+                "      <p>Great news! Your ad titled '<strong>" + ad.getTitle() + "</strong>' has been successfully activated and is now visible to all users on SpareWay.</p>" +
+                "      <p>Make sure to check your ad and update any details if needed. We hope you get the attention your ad deserves!</p>" +
+                "      <p style='margin-top:20px;'>Best regards,<br>Your SpareWay Team</p>" +
+                "    </div>" +
+                "  </div>" +
+                "</body>" +
+                "</html>";
+
+        MailRequestDto mailRequest = new MailRequestDto();
+        mailRequest.setTo(ad.getUser().getEmail());
+        mailRequest.setSubject("Welcome to Our Website!");
+        mailRequest.setBody(htmlBody);
+
+       try {
+           emailServices.sendMail(mailRequest);
+       }catch (MessagingException e){
+           e.printStackTrace();
+       }
 
         return ResponseEntity.ok(Map.of(
                 "status", 200,
