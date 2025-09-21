@@ -1,12 +1,9 @@
 package com.example.back_end.controller;
 
 import com.example.back_end.dto.*;
-import com.example.back_end.entity.Ad;
-import com.example.back_end.entity.Category;
-import com.example.back_end.entity.VehicleModel;
-import com.example.back_end.service.AdService;
-import com.example.back_end.service.CategoryService;
-import com.example.back_end.service.VehicalModelService;
+import com.example.back_end.entity.*;
+import com.example.back_end.service.*;
+import com.example.back_end.service.impl.UserServiceImpl;
 import com.example.back_end.util.JwtUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +24,9 @@ public class AdController {
     private final CategoryService categoryService;
     private final VehicalModelService vehicalModelService;
     private final JwtUtil jwtUtil;
+    private final FavoriteAdsService favoriteAdsService;
+    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
 
     // Create Ad with Photos
@@ -43,6 +43,7 @@ public class AdController {
         return ResponseEntity.ok(newAd);
 
     }
+
 
     //Get all categories
     @GetMapping("/category")
@@ -148,5 +149,49 @@ public class AdController {
         adService.deleteAd(adId);
         return ResponseEntity.ok(new ApiResponseDto(200,"Ad Delete !",adId));
     }
+
+
+    @PostMapping("/add")
+    public ResponseEntity<Favorite> addFavorite(@RequestParam Long userId, @RequestParam Long adId) {
+        User user = userServiceImpl.getUserById(userId);// fetch user
+        Ad ad = adService.getAdById(adId); // fetch ad
+
+        Favorite favorite = favoriteAdsService.addFavorite(user, ad);
+        return ResponseEntity.ok(favorite);
+    }
+
+    @DeleteMapping("/remove")
+    public ResponseEntity<String> removeFavorite(@RequestParam Long userId, @RequestParam Long adId) {
+        User user = userServiceImpl.getUserById(userId);
+        Ad ad = adService.getAdById(adId);
+
+        favoriteAdsService.removeFavorite(user, ad);
+        return ResponseEntity.ok("Favorite removed successfully!");
+    }
+
+
+    @GetMapping("/favorites/{userId}")
+    public ResponseEntity<List<FavoriteAdsDto>> getFavoriteAds(@PathVariable Long userId) {
+        User user = userServiceImpl.getUserById(userId);
+        List<Ad> favoriteAds = favoriteAdsService.getFavoritesByUser(user);
+
+        List<FavoriteAdsDto> dtoList = favoriteAds.stream().map(ad -> FavoriteAdsDto.builder()
+                .adId(ad.getAdId())
+                .title(ad.getTitle())
+                .description(ad.getDescription())
+                .price(ad.getPrice())
+                .location(ad.getLocation())
+                .categoryName(ad.getCategory() != null ? ad.getCategory().getName() : "")
+                .brand(ad.getVehicleModel() != null ? ad.getVehicleModel().getBrand() : "")
+                .model(ad.getVehicleModel() != null ? ad.getVehicleModel().getModel() : "")
+                .photoUrls(ad.getPhotos().stream().map(p -> p.getPhotoUrl()).toList())
+                .isFavorite(true)
+                .build()
+        ).toList();
+
+        return ResponseEntity.ok(dtoList);
+    }
+
+
 
 }

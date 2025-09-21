@@ -1,10 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Favorite Ads</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noty/3.1.4/noty.css">
+    <link href="../css/myads.css" rel="stylesheet"> <!-- Reuse your current CSS -->
 </head>
 <body>
-$END$
+<div class="container mt-4">
+    <h2>My Favorite Ads</h2>
+    <div id="favAdsContainer" class="row g-3">
+        <!-- Favorite ads will be loaded here via JS -->
+    </div>
+</div>
+
+<!-- View / Edit Modal -->
+<div class="modal fade" id="favoriteAdModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4">
+
+            <!-- Header -->
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="favAdTitle">Ad Title</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <!-- Carousel -->
+                <div id="favAdCarousel" class="carousel slide mb-3" data-bs-ride="carousel">
+                    <div class="carousel-inner" id="favAdCarouselInner"></div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#favAdCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#favAdCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </button>
+                </div>
+
+                <!-- Info -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p><b>Price:</b> Rs. <span id="favAdPrice"></span></p>
+                        <p><b>Location:</b> <span id="favAdLocation"></span></p>
+                        <p><b>Category:</b> <span id="favAdCategory"></span></p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>Brand:</b> <span id="favAdBrand"></span></p>
+                        <p><b>Model:</b> <span id="favAdModel"></span></p>
+                    </div>
+                </div>
+
+                <hr>
+                <p><b>Description:</b></p>
+                <p id="favAdDescription"></p>
+                <hr>
+                <p><b>Seller Info:</b></p>
+                <p>Name: <span id="favAdSellerName"></span></p>
+                <p>Email: <span id="favAdSellerEmail"></span></p>
+                <p>Phone: <span id="favAdSellerPhone"></span></p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/noty/lib/noty.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const userId = localStorage.getItem("userId");
+        const token = localStorage.getItem("token");
+
+        if (!userId || !token) {
+            window.location.href = "../index.html";
+        }
+
+        function loadFavoriteAds() {
+            $.ajax({
+                url: `http://localhost:8080/api/ads/favorites/${userId}`,
+                method: "GET",
+                headers: { Authorization: "Bearer " + token },
+                success: function (ads) {
+                    const container = $("#favAdsContainer");
+                    container.empty();
+                    ads.forEach(ad => {
+                        const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+                        container.append(`
+                        <div class="col-md-4 position-relative">
+                            <div class="ad-card card">
+                                <img src="${firstPhoto}" class="card-img-top" alt="${ad.title}">
+                                <div class="card-body">
+                                    <h5>${ad.title}</h5>
+                                    <p>Price: Rs. ${ad.price}</p>
+                                    <p>Location: ${ad.location}</p>
+                                    <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
+                                </div>
+                                <button class="btn btn-danger remove-fav"  data-id="${ad.adId}">❤️</button>
+                            </div>
+                        </div>
+                    `);
+                    });
+                },
+                error: function () {
+                    new Noty({ type: "error", layout: "topRight", text: "Failed to load favorite ads", timeout: 3000 }).show();
+                }
+            });
+        }
+
+        loadFavoriteAds();
+
+        // Remove from favorites
+        $(document).on("click", ".remove-fav", function () {
+            const adId = $(this).data("id");
+            const $btn = $(this);
+
+            $.ajax({
+                url: `http://localhost:8080/api/ads/remove?userId=${userId}&adId=${adId}`,
+                method: "DELETE",
+                headers: { Authorization: "Bearer " + token },
+                success: function () {
+                    $btn.closest('.col-md-4').remove();
+                    new Noty({ type: "success", layout: "topRight", text: "Removed from favorites", timeout: 2000 }).show();
+                },
+                error: function (xhr) {
+                    new Noty({ type: "error", layout: "topRight", text: "Failed to remove favorite: " + xhr.status, timeout: 3000 }).show();
+                }
+            });
+        });
+
+        // View Ad Modal
+        $(document).on("click", ".view-ad", function () {
+            const adId = $(this).data("id");
+            $.ajax({
+                url: `http://localhost:8080/api/ads/active/${adId}`,
+                method: "GET",
+                headers: { Authorization: "Bearer " + token },
+                success: function (ad) {
+                    $("#favAdTitle").text(ad.title);
+                    $("#favAdPrice").text(ad.price);
+                    $("#favAdLocation").text(ad.location);
+                    $("#favAdCategory").text(ad.categoryName);
+                    $("#favAdBrand").text(ad.brand);
+                    $("#favAdModel").text(ad.model);
+                    $("#favAdDescription").text(ad.description);
+                    $("#favAdSellerName").text(ad.userName);
+                    $("#favAdSellerEmail").text(ad.userEmail);
+                    $("#favAdSellerPhone").text(ad.userPhone);
+
+                    const carouselInner = $("#favAdCarouselInner");
+                    carouselInner.empty();
+                    ad.photoUrls.forEach((url, i) => {
+                        carouselInner.append(`
+                        <div class="carousel-item ${i === 0 ? 'active' : ''}">
+                            <img src="${url}" class="d-block w-100">
+                        </div>
+                    `);
+                    });
+
+                    const modal = new bootstrap.Modal(document.getElementById('favoriteAdModal'));
+                    modal.show();
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

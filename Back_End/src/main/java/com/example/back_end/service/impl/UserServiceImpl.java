@@ -57,4 +57,9 @@ public class UserServiceImpl implements UserService {
                token, user.getUserId(), user.getUsername()
        );
     }
+
+    public User getUserById(Long userId) {
+        return userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+    }
 }

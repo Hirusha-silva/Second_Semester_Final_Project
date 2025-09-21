@@ -130,16 +130,6 @@ $(document).ready(function (){
     // post add
     $("#postAdData").on("click", function (e) {
 
-        // if (isNaN(price) || price <= 0) {
-        //     new Noty({
-        //         type: "error",
-        //         layout: "topRight",
-        //         text: "Price should be a valid positive number.",
-        //         timeout: 3000
-        //     }).show();
-        //     return;
-        // }
-
         // Prepare DTO
         let adData = {
             title: $("#title").val(),
@@ -200,6 +190,7 @@ $(document).ready(function (){
 
                 ads.forEach(ad => {
                     const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+                    const isFavorite = ad.isFavorite ? "active" : "";
                     const adCard = `
                     <div class="col-md-4">
                         <div class="ad-card card">
@@ -210,6 +201,7 @@ $(document).ready(function (){
                                 <p>Location: ${ad.location}</p>
                                 <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
                             </div>
+                            <button class="fav-btn ${isFavorite}" data-id="${ad.adId}">❤️</button>
                         </div>
                     </div>
                 `;
@@ -221,6 +213,65 @@ $(document).ready(function (){
             }
         });
     }
+
+    $(document).on("click", ".fav-btn", function () {
+        const adId = $(this).data("id");
+        const $btn = $(this);
+
+        if ($btn.hasClass("active")) {
+            $.ajax({
+                url: `http://localhost:8080/api/ads/remove?userId=${userId}&adId=${adId}`,
+                method: "DELETE",
+                headers: { Authorization: "Bearer " + token },
+                success: function () {
+                    $btn.removeClass("active");
+                    loadFavoriteAds();
+                }
+            });
+        } else {
+            $.ajax({
+                url: `http://localhost:8080/api/ads/add?userId=${userId}&adId=${adId}`,
+                method: "POST",
+                headers: { Authorization: "Bearer " + token },
+                success: function () {
+                    $btn.addClass("active");
+                    loadFavoriteAds();
+                }
+            });
+        }
+    });
+
+    /* ===================== Load Favorite Ads ===================== */
+    // function loadFavoriteAds() {
+    //     $.ajax({
+    //         url: `http://localhost:8080/api/favorites/${userId}`,
+    //         method: "GET",
+    //         headers: { Authorization: "Bearer " + token },
+    //         success: function (ads) {
+    //             const container = $("#favAdsContainer");
+    //             container.empty();
+    //             ads.forEach(ad => {
+    //                 const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+    //                 container.append(`
+    //                     <div class="col-md-4 position-relative">
+    //                         <div class="ad-card card">
+    //                             <img src="${firstPhoto}" class="card-img-top" alt="${ad.title}">
+    //                             <div class="card-body">
+    //                                 <h5>${ad.title}</h5>
+    //                                 <p>Price: Rs. ${ad.price}</p>
+    //                                 <p>Location: ${ad.location}</p>
+    //                                 <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
+    //                             </div>
+    //                             <button class="fav-btn active" data-id="${ad.adId}">❤️</button>
+    //                         </div>
+    //                     </div>
+    //                 `);
+    //             });
+    //         }
+    //     });
+    // }
+
+
 
     $(document).on("click", ".view-ad", function() {
         const adId = $(this).data("id");
@@ -297,6 +348,7 @@ $(document).ready(function (){
                 container.empty();
                 ads.forEach(ad => {
                     const firstPhoto = ad.photoUrls.length > 0 ? ad.photoUrls[0] : 'placeholder.jpg';
+                    const isFavorite = ad.isFavorite ? "active" : "";
                     container.append(`
                     <div class="col-md-4">
                         <div class="ad-card card">
@@ -307,6 +359,7 @@ $(document).ready(function (){
                                 <p>Location: ${ad.location}</p>
                                 <button class="btn btn-primary view-ad" data-id="${ad.adId}">View</button>
                             </div>
+                            <button class="fav-btn ${isFavorite}" data-id="${ad.adId}">❤️</button>
                         </div>
                     </div>
                 `);
@@ -315,7 +368,7 @@ $(document).ready(function (){
         });
     });
 
-    $("#logoutBtn").on("click", function() {
+    $("#logoutBtnu").on("click", function() {
         if (!confirm("Are you sure you want to logout")) return;
         // Clear localStorage
         localStorage.removeItem("token");

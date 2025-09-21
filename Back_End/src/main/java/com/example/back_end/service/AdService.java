@@ -18,5 +18,6 @@ public interface AdService {
     List<UserAdDto> getUserAds(Long userId);
     public Ad updateAdWithPhotos(Long adId, AdUpdateDto dto, List<MultipartFile> newPhotos) throws IOException;
     void deleteAd(Long adId);
+    Ad getAdById(Long adId);
 
 }

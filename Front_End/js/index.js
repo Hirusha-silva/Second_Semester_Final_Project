@@ -164,6 +164,14 @@ $(document).ready(function () {
                 setTimeout(()=>{
                     redirectBasedOnRole(token);
                 },100);
+            },
+            error:function (xhr){
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "username or password wrong !",
+                    timeout: 2000
+                }).show();
             }
         })
     })

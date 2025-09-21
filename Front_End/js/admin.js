@@ -34,7 +34,7 @@ $(document).ready(function () {
                                 <td>${user.phone}</td>
                                 <td>
                                     <button class="btn btn-sm btn-mail">Send Mail</button>
-                                    <button class="btn btn-sm btn-delete">Delete</button>
+<!--                                    <button class="btn btn-sm btn-delete">Delete</button>-->
                                 </td>
                             </tr>
                         `);
@@ -432,7 +432,25 @@ $(document).ready(function () {
         });
     }
 
+    $("#logoutBtn").on("click", function() {
+        if (!confirm("Are you sure you want to logout")) return;
+        // Clear localStorage
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
 
+        // Optionally show notification
+        new Noty({
+            type: "success",
+            layout: "topRight",
+            text: "Logged out successfully!",
+            timeout: 2000
+        }).show();
+
+        // Redirect to login page
+        setTimeout(() => {
+            window.location.href = "../index.html"; // adjust path to your login page
+        }, 1000);
+    });
 
 
 

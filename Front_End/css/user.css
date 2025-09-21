@@ -83,13 +83,13 @@ body {
 }
 
 /* Logout */
-#logoutBtn {
+#logoutBtnu {
     margin-left: 10px;
 
     background: #ef4444;
     color: #fff;
 }
-#logoutBtn:hover {
+#logoutBtnu:hover {
     background: #dc2626;
 }
 

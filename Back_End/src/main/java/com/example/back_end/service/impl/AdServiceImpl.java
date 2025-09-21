@@ -222,7 +222,7 @@ public class AdServiceImpl implements AdService {
 
     public Ad getAdById(Long adId) {
         return adRepo.findById(adId)
-                .orElseThrow(() -> new RuntimeException("Ad not found"));
+                .orElseThrow(() -> new RuntimeException("Ad not found"+adId));
     }
 
 }
