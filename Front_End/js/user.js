@@ -122,6 +122,16 @@ $(document).ready(function (){
     // post add
     $("#postAdData").on("click", function (e) {
 
+        if (isNaN(price) || price <= 0) {
+            new Noty({
+                type: "error",
+                layout: "topRight",
+                text: "Price should be a valid positive number.",
+                timeout: 3000
+            }).show();
+            return;
+        }
+
         // Prepare DTO
         let adData = {
             title: $("#title").val(),
