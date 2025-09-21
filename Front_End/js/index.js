@@ -156,6 +156,7 @@ $(document).ready(function () {
                 if (userId !== undefined && userId !== null) localStorage.setItem("userId", userId.toString());
                 if (userName) localStorage.setItem("username", userName);
 
+
                 console.log("Login success. Token:",token);
                 console.log(userId);
 
