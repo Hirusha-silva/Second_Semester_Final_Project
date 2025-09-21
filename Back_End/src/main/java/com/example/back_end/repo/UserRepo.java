@@ -1,6 +1,7 @@
 package com.example.back_end.repo;
 
 import com.example.back_end.dto.UserSummaryDto;
+import com.example.back_end.entity.Role;
 import com.example.back_end.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface UserRepo extends JpaRepository<User, Long> {
     @Query("SELECT u.name, u.email, u.phone, u.address FROM User u WHERE u.role = 'USER'")
     List<Object[]> findAllUserSummaries();
     //Optional<UserSummaryDto> findUserSummaryById(Long id);
+
+    long countByRole(Role role);
 
 }

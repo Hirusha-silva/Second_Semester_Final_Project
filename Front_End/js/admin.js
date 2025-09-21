@@ -54,15 +54,15 @@ $(document).ready(function () {
     }
 
    // load status cards
-    function loadStatusCards() {
-        const data = { totalUsers:120, activeAds:85, pendingAds:15, totalListings:230 };
-        $(".status-cards").html(`
-            <div class="status-card"><h3>${data.totalUsers}</h3><p>Total Users</p></div>
-            <div class="status-card"><h3>${data.activeAds}</h3><p>Active Ads</p></div>
-            <div class="status-card"><h3>${data.pendingAds}</h3><p>Pending Ads</p></div>
-            <div class="status-card"><h3>${data.totalListings}</h3><p>Total Listings</p></div>
-        `);
-    }
+   //  function loadStatusCards() {
+   //      const data = { totalUsers:120, activeAds:85, pendingAds:15, totalListings:230 };
+   //      $(".status-cards").html(`
+   //          <div class="status-card"><h3>${data.totalUsers}</h3><p>Total Users</p></div>
+   //          <div class="status-card"><h3>${data.activeAds}</h3><p>Active Ads</p></div>
+   //          <div class="status-card"><h3>${data.pendingAds}</h3><p>Pending Ads</p></div>
+   //          <div class="status-card"><h3>${data.totalListings}</h3><p>Total Listings</p></div>
+   //      `);
+   //  }
 
    // load pending ads
     function loadPendingAds() {
@@ -388,6 +388,50 @@ $(document).ready(function () {
             }
         });
     });
+
+    function loadStatusCards() {
+        $.ajax({
+            url: "http://localhost:8080/admin/status-cards",
+            method: "GET",
+            headers: { Authorization: "Bearer " + token },
+            success: function (res) {
+                if (res.status === 200) {
+                    const data = res.data;
+                    $(".status-cards").html(`
+                    <div class="status-card" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <div class="card-icon">👥</div>
+                        <h3>${data.totalUsers}</h3>
+                        <p>Total Users</p>
+                    </div>
+                    <div class="status-card" style="background: linear-gradient(135deg, #43e97b, #38f9d7);">
+                        <div class="card-icon">📢</div>
+                        <h3>${data.activeAds}</h3>
+                        <p>Active Ads</p>
+                    </div>
+                    <div class="status-card" style="background: linear-gradient(135deg, #fa709a, #fee140);">
+                        <div class="card-icon">⏳</div>
+                        <h3>${data.pendingAds}</h3>
+                        <p>Pending Ads</p>
+                    </div>
+                    <div class="status-card" style="background: linear-gradient(135deg, #a18cd1, #fbc2eb);">
+                        <div class="card-icon">📄</div>
+                        <h3>${data.totalListings}</h3>
+                        <p>Total Listings</p>
+                    </div>
+                `);
+                }
+            },
+            error: function (xhr) {
+                new Noty({
+                    type: "error",
+                    layout: "topRight",
+                    text: "Status cards load කිරීම අසාර්ථකයි: " + xhr.responseText,
+                    timeout: 2000
+                }).show();
+            }
+        });
+    }
+
 
 
 

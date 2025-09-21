@@ -3,6 +3,7 @@ package com.example.back_end.service.impl;
 import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
 import com.example.back_end.entity.AdStatus;
+import com.example.back_end.entity.Role;
 import com.example.back_end.repo.AdRepo;
 import com.example.back_end.repo.UserRepo;
 import com.example.back_end.service.AdminService;
@@ -101,7 +102,7 @@ public class AdminServiceImpl implements AdminService {
     //status card
     @Override
     public StatusCardDto getStatusCards() {
-        long totalUsers = userRepo.count();
+        long totalUsers = userRepo.countByRole(Role.USER);
         long totalAds = adRepo.count();
         long totalPendingAds = adRepo.countByStatus(AdStatus.PENDING);
         long totalActiveAds = adRepo.countByStatus(AdStatus.ACTIVE);
