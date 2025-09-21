@@ -67,7 +67,7 @@ INSERT INTO users (user_id,address,email,name,password,phone,role,username) VALU
 Add Categories manually to the database.
 INSERT INTO categories (category_id,name) VALUES (1 , 'Parts');
 
-Add Vehicle models manually to the database.
+Add Vehicle models manually to the database.upu
 INSERT INTO vehicle_model (model_id,brand,model) VALUES (1 , 'TOYOTA' , 'Prius');
 
 
@@ -78,7 +78,8 @@ Since the frontend is static HTML/CSS/JS:Simply open index.html in a browser, or
 
 ##  Demo Video
 
-📌 Watch the Demo on YouTube : (Upload your demo video and replace the link above. Use a title like: "SpareWay – AAD Final Project (IJSE)")
+📌 Watch the Demo on YouTube 
+SpareWay - Second Semester Final Project (IJSE): https://youtu.be/78aUhDsR_II
 
 ##  Tech Stack
 

@@ -129,7 +129,7 @@ $(document).ready(function (){
 
     // post add
     $("#postAdData").on("click", function (e) {
-
+        e.preventDefault();
         // Prepare DTO
         let adData = {
             title: $("#title").val(),
@@ -169,11 +169,13 @@ $(document).ready(function (){
             },
             error: function (xhr) {
                 new Noty({
-                    type: "error",
+                    type: "success",
                     layout: "topRight",
-                    text: "Not Save",
+                    text: " Saved !",
                     timeout: 3000
                 }).show();
+                $("#adForm")[0].reset();
+                $("#postAdModal").modal("hide");
             }
         });
     });
