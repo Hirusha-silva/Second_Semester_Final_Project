@@ -2,6 +2,7 @@ package com.example.back_end.controller;
 
 import com.example.back_end.dto.*;
 import com.example.back_end.entity.Ad;
+import com.example.back_end.service.AdService;
 import com.example.back_end.service.AdminService;
 import com.example.back_end.service.EmailServices;
 import com.example.back_end.service.impl.AdminServiceImpl;
@@ -22,6 +23,7 @@ public class AdminController {
     private final AdminServiceImpl adminServiceImpl;
     private final EmailService emailService;
     private final EmailServices emailServices;
+    private final AdService adService;
 
     //load all users admin page
     @GetMapping("/users")
@@ -102,6 +104,7 @@ public class AdminController {
     public ResponseEntity<ApiResponseDto> deleteAd(@PathVariable("id") Long id) {
         adminService.deleteAd(id);
         return ResponseEntity.ok(new ApiResponseDto(200, "Ad deleted successfully",id));
+
     }
 
    // Get all active ads
